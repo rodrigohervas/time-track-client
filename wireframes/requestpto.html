@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Track - request PTO</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+    <nav role="navigation">Navigaton Menu</nav>
+    
+    <main role="main">
+        <header>
+            <h1>Request PTO:</h1>
+        </header>
+        
+        <section>
+            <form class="request-pto">
+                <div class="pto-container">
+                    <div class="left">
+                        <div class="form-group">
+                            <label id="available-days">9 days</label>
+                            <hr>
+                            <label id="used-days">10 days</label>
+                            |
+                            <label id="total-days">19 days</label>
+                        </div>
+                    </div>
+                    
+                    <div class="right">
+                        <div class="form-group">
+                            <label for="reason">
+                                Reason:
+                            </label>
+                            <select id="reason" name="reason">
+                                <option value="1">Select PTO type</option>
+                                <option value="2">Vacation days</option>
+                                <option value="2">Personal days</option>
+                                <option value="2">Sick days</option>
+                                <option value="2">Other</option>
+                            </select>
+                        </div>
+                        <div class="days">
+                            <div class="form-group">
+                                <label for="start-date">
+                                    Date:
+                                </label>
+                                <input type="date" name="start-date" id="start-date" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="finish-date">
+                                    Date:
+                                </label>
+                                <input type="date" name="finish-date" id="finish-date" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="comments">Comments:</label>
+                            <input type="textarea" id="comments" name="comments" placeholder="Comments" rows="7" cols="50" wrap required>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Request">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer role="information">
+        Footer
+    </footer>
+</body>
+</html>

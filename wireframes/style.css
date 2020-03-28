@@ -1,0 +1,159 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    align-items: center;
+    max-width: 100%;
+    margin: auto;
+}
+
+nav {
+    margin: 0;
+    background-color: #999;
+    color: #111;
+    padding: 20px 20px 30px 20px;
+}
+
+header {
+    margin: 0px 5px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-width: 1px;/* 0px;*/
+    border-color: #CCC;
+    border-style: solid;
+    width: 100%;
+    background-color: #f4f4f4;
+    padding: 0px 10px;
+}
+
+section:nth-child(odd) {
+    background-color: #fff;
+}
+
+.pto-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.pto-container > .left {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0px 20px;
+}
+
+.pto-container > .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0px 20px;
+}
+
+footer {
+    margin: 0;
+    background-color: #888;
+    color: #111;
+    padding: 20px 20px 30px 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    /* display: inline-block; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[textarea] {
+    width: 250px;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+.form-group {
+    margin: 10px 0px;
+}
+
+/*Non-mobile sizing*/
+@media screen and (min-width: 300px) {
+    main {
+        max-width: 80%;
+        margin: auto;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .form-group {
+        margin: 10px 0px;
+    }   
+}
+
+@media screen and (min-width: 600px) {
+    .pto-container {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+table {
+    border-collapse: collapse;
+  }
+  
+  td, th {
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin: 10px;
+  }
+  
+  tr:nth-child(even){background-color: #f2f2f2;}
+  
+  tr:hover {background-color: #ddd;}
+  
+  th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #CCC;
+    color: #333333;
+  }
+
+  .week {
+   padding: 15px;   
+  }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Track - Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+    <nav role="navigation">Navigaton Menu</nav>
+    <main role="main">
+        <header>
+            <h1>Sign Up:</h1>
+        </header>
+        
+        <section>
+            <form class="signup">
+                <div class="form-group">
+                    <label for="username">
+                        Username:
+                    </label>
+                    <input type="text" name="username" id="username" placeholder="john@doe.com" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        Password:
+                    </label>
+                    <input type="password" name="password" id="password" placeholder="your password" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="reason">
+                        Position:
+                    </label>
+                    <select id="reason" name="reason">
+                        <option value="1">Select position</option>
+                        <option value="2">Team Member</option>
+                        <option value="2">Manager</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Sign Up">
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <footer role="information">
+        Footer
+    </footer>
+</body>
+</html>
