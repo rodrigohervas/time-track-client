@@ -13,7 +13,7 @@ Complete the following steps to start a new project (NEW-PROJECT-NAME):
 2. `cd` into the cloned repository
 3. Make a fresh start of the git history for this project with `rm -r Force .git` and `git init`
 4. Make sure that the .gitignore file is encoded as 'UTF-8'
-7. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "time-track-client",`
+5. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "time-track-client",`
 
 
 ## Scripts
