@@ -1,0 +1,19 @@
+.pto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.top {
+    margin: 10px;
+}
+
+.bottom  {
+    border-top: 1px solid #ddd;
+    margin: 10px;
+}
+
+.num-days {
+    margin: 0px 10px;
+}

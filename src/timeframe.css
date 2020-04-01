@@ -1,0 +1,36 @@
+.timeframe {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 10px 0px;
+}
+
+.item, .button-item {
+    /* border: 1px solid grey; */
+    margin: 5px 15px;
+}
+
+input[type=button] {
+    width: 75px;
+}
+
+/* Non-mobile */
+@media screen and (min-width: 540px) {
+    .timeframe {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .date {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        margin-left: 1px;
+    }
+}

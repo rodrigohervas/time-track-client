@@ -1,0 +1,39 @@
+.ptorequest-container {
+    /* border: 1px solid blue; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Non-mobile */
+@media screen and (min-width: 600px) {
+    .pto-container {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px 30px;
+}
+
+textarea {
+    width: 250px;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+.submit {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
