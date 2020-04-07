@@ -47,6 +47,7 @@ function App() {
     pto.id = lastId + 1
     const newPtoRequests = [...ptoRequests, pto]
     setPtoRequests(newPtoRequests)
+    console.log('PTO: ', pto)
     
     //update pto Summary
     const days = getDays(pto.startDate, pto.finishDate)
@@ -86,6 +87,14 @@ function App() {
   const handleDeletePto = (id) => {
     const ptoList = ptoRequests.filter( pto => pto.id !== id)
     setPtoRequests(ptoList)
+
+    //update pto Summary
+    const deletedPto = ptoRequests.filter(pto => pto.id === id)[0]
+    const days = getDays(deletedPto.startDate, deletedPto.finishDate)
+    const newSummary = {...ptoSummary}
+    newSummary.availableDays = ptoSummary.availableDays + days
+    newSummary.usedDays = ptoSummary.usedDays - days
+    setPtoSummary(newSummary)
   }
 
   const handleIsLogged = (bool) => {
