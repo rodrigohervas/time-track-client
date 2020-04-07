@@ -15,6 +15,12 @@ Complete the following steps to start a new project (NEW-PROJECT-NAME):
 4. Make sure that the .gitignore file is encoded as 'UTF-8'
 5. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "time-track-client",`
 
+## Log in
+
+To access the application it's neccesary to login with a user and password. Use the following:
+
+username: michael@jones.com
+password: michael
 
 ## Scripts
 
