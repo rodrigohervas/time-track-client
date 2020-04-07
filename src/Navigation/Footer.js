@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import './footer.css'
+import './../style/footer.css'
 
 function Footer(props) {
 
@@ -8,8 +8,8 @@ function Footer(props) {
     return (
         <div className="footer">
             <div className="info">
-                <NavLink className="navlink" to="/signin">
-                    {'Sign In'}
+                <NavLink className="navlink" to="/">
+                    {'Landing'}
                 </NavLink>
                 <NavLink className="navlink" to="/dashboard">
                     {'DashBoard'}
@@ -17,8 +17,8 @@ function Footer(props) {
                 <NavLink className="navlink" to="/loghours">
                     {'Log Hours'}
                 </NavLink>
-                <NavLink className="navlink" to="/requestpto">
-                    {'request PTO'}
+                <NavLink className="navlink" to="/ptorequest">
+                    {'PTO Request'}
                 </NavLink>
             </div>
         </div>

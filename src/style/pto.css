@@ -1,4 +1,4 @@
-.timeframe {
+.pto {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,6 +7,8 @@
     border: 1px solid #ddd;
     border-radius: 3px;
     margin: 10px 0px;
+
+    min-width: 260px;
 }
 
 .item, .button-item {
@@ -20,7 +22,7 @@ input[type=button] {
 
 /* Non-mobile */
 @media screen and (min-width: 540px) {
-    .timeframe {
+    .pto {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;

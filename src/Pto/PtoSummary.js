@@ -1,12 +1,12 @@
 import React from 'react'
-import './pto.css'
+import './../style/ptoSummary.css'
 
-function Pto(props) {
+function PtoSummary(props) {
 
     const {availableDays, usedDays, totalDays} = props.days
 
     return (
-        <div className="pto">
+        <div className="ptoSummary">
             <div className="top">
                 <label className="num-days">{availableDays}</label>
                 <label className="type-days">Available days</label>
@@ -22,4 +22,4 @@ function Pto(props) {
     )
 }
 
-export default Pto
+export default PtoSummary

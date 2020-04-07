@@ -1,5 +1,5 @@
 import React from 'react'
-import './landing.css'
+import './style/landing.css'
 
 function Landing(props) {
     
@@ -15,7 +15,7 @@ function Landing(props) {
             </section>
 
             <section className="section">
-                <div classname="section-title">
+                <div className="section-title">
                     <h3>Log Working Hours</h3>
                 </div>
                 <div className="section-content">
@@ -25,7 +25,7 @@ function Landing(props) {
             </section>
 
             <section className="section">
-                <div classname="section-title">
+                <div className="section-title">
                     <h3>Request PTO</h3>
                 </div>
                 <div className="section-content">
@@ -35,7 +35,7 @@ function Landing(props) {
             </section>
 
             <section className="section">
-                <div classname="section-title">
+                <div className="section-title">
                     <h3>Information Dashboard</h3>
                 </div>
                 <div className="section-content">
@@ -45,7 +45,7 @@ function Landing(props) {
             </section>
 
             <section className="section">
-                <div classname="section-title">
+                <div className="section-title">
                     <h3>Information is Protected</h3>
                 </div>
                 <div className="section-content">

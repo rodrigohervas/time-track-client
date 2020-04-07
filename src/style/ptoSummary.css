@@ -1,8 +1,12 @@
-.pto {
+.ptoSummary {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 10px 0px;
 }
 
 .top {
@@ -16,4 +20,8 @@
 
 .num-days {
     margin: 0px 10px;
+}
+
+@media screen and (min-width: 540px) {
+
 }

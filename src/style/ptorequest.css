@@ -37,3 +37,17 @@ textarea {
     justify-content: center;
     align-items: center;
 }
+
+input[type=submit] {
+    /* border: 1px solid blue; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 75px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

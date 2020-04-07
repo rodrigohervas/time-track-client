@@ -1,21 +1,28 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import './Nav.css'
+import './../style/Nav.css'
 
 function Nav(props) {
 
-    // const isUserLogged = () => {
-    //     return false;
-    // }
+    let title = 'Sign In'
 
+    const handleClick = () => {
+        if(isLogged) {
+            handleIsLogged(false)
+        }
+    }
+
+    const {isLogged, handleIsLogged} = props
+    title = isLogged ? 'Sign Out' : 'Sign In'
+    
     return (
         <div className="nav">
             <div className="logo">
                 {'Time Track logo'}
             </div>
             <div className="menu">
-                <NavLink className="navlink" to="/signin">
-                    {'Sign In'}
+                <NavLink className="navlink" to="/">
+                    {'Landing'}
                 </NavLink>
                 <NavLink className="navlink" to="/dashboard">
                     {'DashBoard'}
@@ -24,7 +31,10 @@ function Nav(props) {
                     {'Log Hours'}
                 </NavLink>
                 <NavLink className="navlink" to="/ptorequest">
-                    {'request PTO'}
+                    {'PTO Request'}
+                </NavLink>
+                <NavLink name='signin' className="navlink" to="/signin" onClick={() => handleClick()}>
+                    {title}
                 </NavLink>
             </div>
         </div>
