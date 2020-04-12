@@ -138,7 +138,7 @@ function LogHours(props) {
                     </div>
 
                     <div className="form-group">
-                        <div class="buttons">
+                        <div className="buttons">
                             <input type="submit" value="Cancel" onClick={() => history.push('/dashboard')} />
                             <input type="submit" value="Log" />
                         </div>

@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react'
 import './../style/signin.css'
 import { NavLink, useHistory } from 'react-router-dom'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
-import users from '../static-data/users'
+import config from './../config'
 
 function SignUp(props) {
 
     const [username, setUsername] = useState(localStorage.getItem('username') || '')
     const [password, setPassword] = useState(localStorage.getItem('password') || '')
     const [role, setRole] = useState('')
+    const [company, setCompany] = useState('')
     const [UsernameError, setUsernameError] = useState(false)
     const [PasswordError, setPasswordError] = useState(false)
     const [RoleError, setRoleError] = useState(false)
+    const [CompanyError, setCompanyError] = useState(false)
     const [Error, setError] = useState(false)
     const history = useHistory()
 
@@ -19,6 +21,8 @@ function SignUp(props) {
         if(username !== '' && password !== '') {
             localStorage.removeItem('username')
             localStorage.removeItem('password')
+            localStorage.removeItem('role_id')
+            localStorage.removeItem('company_id')
         }
     }, [username, password])
 
@@ -31,6 +35,9 @@ function SignUp(props) {
         }
         else if(e.target.name === 'role') {
             setRole(e.target.value)
+        }
+        else if(e.target.name === 'company') {
+            setCompany(e.target.value)
         }
     }
 
@@ -55,10 +62,17 @@ function SignUp(props) {
         else { 
             setRoleError(false)
         }
+
+        if (!company || company.length < 1) {
+            setCompanyError(true)
+        }
+        else { 
+            setCompanyError(false)
+        }
     }
 
     const isValid = () => {
-        if(UsernameError || PasswordError || RoleError) {
+        if(UsernameError || PasswordError || RoleError || CompanyError) {
             return false
         }
 
@@ -69,40 +83,64 @@ function SignUp(props) {
         setUsernameError(false)
         setPasswordError(false)
         setRoleError(false)
+        setCompanyError(false)
         setError(false)
     }
 
-    //TODO: get user token from DB
-    const getUser = (user) => {
-        const userInSystem = users.filter(usr => usr.username === user.username && usr.password === user.password)
-        return (userInSystem.length > 0)
-    }
+    const manageUser = (user) => {
+        const url = config.REACT_APP_API_URL_USERS
+        const authorization = `Bearer ${config.REACT_APP_API_KEY}`
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(isValid()) {
-            const user = {
-            username: username, 
-            password: password, 
-            role: role
+        const options = { 
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json', 
+                'Authorization': authorization
+            },
+            body: JSON.stringify(user)
+        };
+
+        fetch(url, options)
+        .then(res => {
+            if (!res.ok) {
+                throw(res.status)
             }
+            return res.json()
+        })
+        .then(userDB => {
+            if(userDB) {
+                localStorage.setItem('username', userDB.username)
+                localStorage.setItem('password', userDB.password)
+                localStorage.setItem('role_id', userDB.role_id)
+                localStorage.setItem('company_id', userDB.company_id)
 
-            //TODO: create user in DB
-
-            //TODO: save user token in localStorage
-            if(getUser(user)) {
-                //localStorage.setItem('token', token)
-                localStorage.setItem('username', user.username)
-                localStorage.setItem('password', password) //TODO: Encode password
                 isLogged(true)
                 history.push('/dashboard')
+                
+                clearErrors()
             }
             else {
                 setError(true)
             }
+        })
+        .catch(error => {
+            console.log('ERROR: ', error)
+            setError(true)
+        })
+    }
 
-            //clear errors
-            clearErrors()
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        
+        if(isValid()) {
+            const user = {
+            username: username, 
+            password: password, 
+            role_id: role, 
+            company: company
+            }
+
+            manageUser(user)
         }
     }
 
@@ -145,6 +183,17 @@ function SignUp(props) {
                         <option value="2">Manager</option>
                     </select>
                     {RoleError && <ErrorMessage message={'Role must be selected'}/>}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="company">
+                        Company:
+                    </label>
+                    <input type="text" name="company" id="company" placeholder="Acme Inc" 
+                           required 
+                           onBlur={e => validateInput(e)}
+                           onChange={e => handleChange(e)} />
+                    {CompanyError && <ErrorMessage message={'invalid company name'}/>}
                 </div>
 
                 <div className="form-group">

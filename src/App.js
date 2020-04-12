@@ -17,6 +17,7 @@ import UpdatePto from './Pto/UpdatePto'
 import AuthWrapper from './Authentication/AuthWrapper'
 import ComponentError from './ErrorManagement/ComponentError'
 import { getDays } from './helpers/helper'
+import config from './config'
 require('dotenv').config()
 
 
@@ -26,16 +27,44 @@ function App() {
   const [ptoRequests, setPtoRequests] = useState([])
   const [ptoSummary, setPtoSummary] = useState({})
   const [isLogged, setIsLogged] = useState(localStorage.getItem('username') !== null)
+  const [error, setError] = useState(null)
   const history = useHistory()
 
+  const getAPIData = (url, callbackFunction) => {
+    const options = { 
+      method: 'GET',
+      headers: {
+          'content-type': 'application/json', 
+          'Authorization': `Bearer ${config.REACT_APP_API_KEY}`
+      },
+      body: JSON.stringify({
+        username: localStorage.getItem('username'), 
+        password: localStorage.getItem('password')
+      })
+  };
+    fetch(url, options)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(res.status)
+      }
+      return res.json()
+    })
+    .then(data => {
+      callbackFunction(data)
+      setError(null)
+    })
+    .catch(error => setError(error))
+  }
+
   useEffect( () => {
+    //getAPIData(config.REACT_APP_API_URL_TIMEFRAMES, setHourLogs)
     setHourLogs(hourlogs)
     setPtoRequests(ptorequests)
     setPtoSummary(ptosummary)
   }, [])
 
   const handleLogHours = (log) => {
-    const lastId = hourlogs.pop().id
+    const lastId = hourLogs.slice(-1)[0].id
     log.id = lastId + 1
     const newHourLogs = [...hourLogs, log]
     setHourLogs(newHourLogs)
@@ -43,11 +72,10 @@ function App() {
 
   const handleRequestPto = (pto) => {
     //update pto Requests
-    const lastId = ptoRequests.pop().id
+    const lastId = ptoRequests.slice(-1)[0].id
     pto.id = lastId + 1
     const newPtoRequests = [...ptoRequests, pto]
     setPtoRequests(newPtoRequests)
-    console.log('PTO: ', pto)
     
     //update pto Summary
     const days = getDays(pto.startDate, pto.finishDate)

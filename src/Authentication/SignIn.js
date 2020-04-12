@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './../style/signin.css'
 import { NavLink, useHistory } from 'react-router-dom'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
-import users from '../static-data/users'
+import config from './../config'
 
 function SignIn(props) {
 
@@ -17,6 +17,8 @@ function SignIn(props) {
         if(username !== '' && password !== '') {
             localStorage.removeItem('username')
             localStorage.removeItem('password')
+            localStorage.removeItem('role_id')
+            localStorage.removeItem('company_id')
         }
     }, [username, password])
 
@@ -59,10 +61,46 @@ function SignIn(props) {
         setError(false)
     }
 
-    //TODO: get user token from DB
-    const getUser = (user) => {
-        const userInSystem = users.filter(usr => usr.username === user.username && usr.password === user.password)
-        return (userInSystem.length > 0)
+    const manageUser = (user) => {
+        const url = config.REACT_APP_API_URL_LOGIN
+        const authorization = `Bearer ${config.REACT_APP_API_KEY}`
+
+        const options = { 
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json', 
+                'Authorization': authorization
+            },
+            body: JSON.stringify(user)
+        };
+
+        fetch(url, options)
+        .then(res => {
+            if (!res.ok) {
+                throw(res.status)
+            }
+            return res.json()
+        })
+        .then(userDB => {
+            if(userDB) {
+                localStorage.setItem('username', userDB.username)
+                localStorage.setItem('password', userDB.password)
+                localStorage.setItem('role_id', userDB.role_id)
+                localStorage.setItem('company_id', userDB.company_id)
+
+                isLogged(true)
+                history.push('/dashboard')
+
+                clearErrors()
+            }
+            else {
+                setError(true)
+            }
+        })
+        .catch(error => {
+            console.log('ERROR: ', error)
+            setError(true)
+        })
     }
 
     const handleSubmit = (e) => {
@@ -73,21 +111,8 @@ function SignIn(props) {
                 username: username, 
                 password: password
             }
-    
-           //TODO: save user token in localStorage
-           if(getUser(user)) {
-                //localStorage.setItem('token', token)
-                localStorage.setItem('username', user.username)
-                localStorage.setItem('password', password) //TODO: Encode password
-                isLogged(true)
-                history.push('/dashboard')
 
-                //clear errors
-                clearErrors()
-            }
-            else {
-                setError(true)
-            }
+            manageUser(user)
         }
     }
 
