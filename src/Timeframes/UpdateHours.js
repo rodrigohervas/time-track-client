@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import './../style/loghours.css'
 import { useHistory } from 'react-router-dom'
+import { formatDate, formatTime } from './../helpers/helper'
+import FormErrorMessage from './../ErrorManagement/FormErrorMessage'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
+import config from './../config'
 
 
 function UpdateHours(props) {
@@ -12,12 +15,15 @@ function UpdateHours(props) {
     const [DateError, setDateError] = useState(false)
     const [StartTimeError, setStartTimeError] = useState(false)
     const [FinishTimeError, setFinishTimeError] = useState(false)
+    const [error, setError] = useState(null)
+    const [showError, setShowError] = useState(false)
     const history = useHistory()
 
+       
     useEffect( () => {
-        setDate(hourLog.date)
-        setStartTime(hourLog.startTime)
-        setFinishTime(hourLog.finishTime)
+        setDate(formatDate(hourLog.date, true))
+        setStartTime(hourLog.starttime)
+        setFinishTime(hourLog.finishtime)
         setComments(hourLog.comments)
     }, [])
     
@@ -26,11 +32,11 @@ function UpdateHours(props) {
     }
 
     const updateStartTime = (time) => {
-        setStartTime(time)
+        setStartTime(formatTime(time))
     }
 
     const updateFinishTime = (time) => {
-        setFinishTime(time)
+        setFinishTime(formatTime(time))
     }
 
     const updateComments = (comments) => {
@@ -76,22 +82,44 @@ function UpdateHours(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
         if(isValid()) {
-            const log = {
+            const timeframe = {
                 id: hourLog.id, 
-                date: date, 
-                startTime: startTime, 
-                finishTime: finishTime, 
-                comments: comments
+                date: formatDate(date, false), 
+                starttime: startTime, 
+                finishtime: finishTime, 
+                comments: comments, 
+                user_id: hourLog.user_id
             }
-            
-            //TODO: Update hours Logs in DB
 
-            handleHourUpdate(log)
-            history.push('/dashboard')
+            const url = `${config.REACT_APP_API_URL_TIMEFRAMES}/${timeframe.id}`
+            const options = {
+                method: 'PUT', 
+                headers: {
+                    'content-type': 'application/json', 
+                    'Authorization': `Bearer ${config.REACT_APP_API_KEY}`
+                },
+                body: JSON.stringify(timeframe)
+            }
 
-            //clear errors
-            clearErrors()
+            fetch(url, options)
+                .then(res => {
+                    if(!res.ok) {
+                        throw Error('Oops! something went wrong: couldn\'t update hours')
+                    }
+                    return res.json()
+                })
+                .then( data => {
+                    handleHourUpdate(timeframe)
+                    history.push('/dashboard')
+                    //clear errors
+                    clearErrors()
+                })
+                .catch(error => { 
+                    setError(error)
+                    setShowError(true)
+                })
         }
     }
 
@@ -114,7 +142,7 @@ function UpdateHours(props) {
                                onChange={ e => updateDate(e.target.value) } 
                                value={date}
                                required />
-                        {DateError && <ErrorMessage message={'Date is required'}/>}
+                        {DateError && <FormErrorMessage message={'Date is required'}/>}
                     </div>
 
                     <div className="time">
@@ -127,7 +155,7 @@ function UpdateHours(props) {
                                onChange={ e => updateStartTime(e.target.value) } 
                                value={startTime} 
                                required />
-                            { StartTimeError && <ErrorMessage message={'The start time is required'}/> }
+                            { StartTimeError && <FormErrorMessage message={'The start time is required'}/> }
                         </div>
                         <div className="form-group">
                             <label htmlFor="finishTime">
@@ -138,7 +166,7 @@ function UpdateHours(props) {
                                onChange={ e => updateFinishTime(e.target.value) } 
                                value={finishTime} 
                                required />
-                            { FinishTimeError && <ErrorMessage message={'The finish time is required'}/> }
+                            { FinishTimeError && <FormErrorMessage message={'The finish time is required'}/> }
                         </div>
                     </div>
 
@@ -148,7 +176,7 @@ function UpdateHours(props) {
                         </label>
                         <textarea id="comments" name="comments" placeholder="Comments" 
                                onChange={ e => updateComments(e.target.value) } 
-                               value={comments} ></textarea>
+                               value={comments} required></textarea>
                     </div>
 
                     <div className="form-group">
@@ -157,6 +185,9 @@ function UpdateHours(props) {
                             <input type="submit" value="Log" />
                         </div>
                     </div>
+
+                    { showError && <ErrorMessage message={error} /> }
+
                 </form>
             </section>
         </div>

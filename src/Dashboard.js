@@ -11,7 +11,7 @@ function Dashboard(props) {
     const [actualMonth, setActualMonth] = useState(new Date().getMonth() + 1)
     
     const filterTimeFramesByMonth = (timeframes, expectedMonth) => {
-        return timeframes.filter(timeframe => new Date(timeframe.date + ' ' + timeframe.startTime).getMonth() + 1 === expectedMonth)
+        return timeframes.filter(timeframe => new Date(timeframe.date + ' ' + timeframe.starttime).getMonth() + 1 === expectedMonth)
     }
 
     const getMonthName = (monthNumber) => {
@@ -24,10 +24,11 @@ function Dashboard(props) {
     }
 
     const { hourLogs, ptoRequests, ptoSummary, handleDeleteHours, handleDeletePto } = props
-    
+
     const monthName = getMonthName(actualMonth)
 
     const times = filterTimeFramesByMonth(hourLogs, actualMonth)
+    
     const timeframes = times.map( (timeframe) => <TimeFrame key={timeframe.id} 
                                                                 timeframe={timeframe} 
                                                                 handleDeleteHours={handleDeleteHours} />)
@@ -68,7 +69,7 @@ function Dashboard(props) {
                     <h3>PTO:</h3>
                 </div>
                 <div className="pto-data">
-                    <PtoSummary days={ptoSummary} />
+                    <PtoSummary ptoSummary={ptoSummary} />
                 </div>
                 <div className="ptoRequests">
                     {ptos}

@@ -1,0 +1,15 @@
+.error {
+    border: 1px solid lightsalmon;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    
+    color: red;
+    width: 200px;
+    padding: 6px 15px;
+    margin: 8px 0px 8px auto;
+    box-sizing: border-box;
+}

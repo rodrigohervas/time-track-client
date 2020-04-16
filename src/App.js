@@ -9,8 +9,6 @@ import SignUp from './Authentication/SignUp'
 import Dashboard from './Dashboard'
 import LogHours from './Timeframes/LogHours'
 import PtoRequest from './Pto/PtoRequest'
-import hourlogs from './static-data/hourLogs'
-import ptorequests from './static-data/ptoRequests'
 import ptosummary from './static-data/ptosummary'
 import UpdateHours from './Timeframes/UpdateHours'
 import UpdatePto from './Pto/UpdatePto'
@@ -18,6 +16,7 @@ import AuthWrapper from './Authentication/AuthWrapper'
 import ComponentError from './ErrorManagement/ComponentError'
 import { getDays } from './helpers/helper'
 import config from './config'
+import ErrorMessage from './ErrorManagement/ErrorMessage'
 require('dotenv').config()
 
 
@@ -28,61 +27,58 @@ function App() {
   const [ptoSummary, setPtoSummary] = useState({})
   const [isLogged, setIsLogged] = useState(localStorage.getItem('username') !== null)
   const [error, setError] = useState(null)
+  const [showError, setShowError] = useState(false)
   const history = useHistory()
 
-  const getAPIData = (url, callbackFunction) => {
+  const user_id = localStorage.getItem('user_id')
+
+  const fetchAPI = (verb, url, body, callbackFunction) => {
+    
     const options = { 
-      method: 'GET',
+      method: verb,
       headers: {
           'content-type': 'application/json', 
           'Authorization': `Bearer ${config.REACT_APP_API_KEY}`
-      },
-      body: JSON.stringify({
-        username: localStorage.getItem('username'), 
-        password: localStorage.getItem('password')
-      })
-  };
-    fetch(url, options)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(res.status)
       }
-      return res.json()
-    })
-    .then(data => {
-      callbackFunction(data)
-      setError(null)
-    })
-    .catch(error => setError(error))
+    };
+
+    if(body) {
+      options.body = JSON.stringify(body)
+    }
+
+      fetch(url, options)
+      .then(res => {
+        if (!res.ok) {
+          throw Error( `Something went wrong: No data available`)
+        }
+        return res.json()
+      })
+      .then(data => {
+        //console.log('API FETCH response: ', data)
+
+        callbackFunction(data)
+        setError(null)
+      })
+      .catch(error => { 
+        setError(error)
+        setShowError(true)
+      })
   }
+
 
   useEffect( () => {
-    //getAPIData(config.REACT_APP_API_URL_TIMEFRAMES, setHourLogs)
-    setHourLogs(hourlogs)
-    setPtoRequests(ptorequests)
-    setPtoSummary(ptosummary)
-  }, [])
+    if(user_id) {
+      fetchAPI('POST', `${config.REACT_APP_API_URL_TIMEFRAMES}/${user_id}`, null, setHourLogs)
+      fetchAPI('POST', `${config.REACT_APP_API_URL_PTOS}/${user_id}`, null, setPtoRequests)
+      fetchAPI('GET', `${config.REACT_APP_API_URL_PTODAYS}/${user_id}`, null, setPtoSummary)
+    }
+  }, [user_id])
+
 
   const handleLogHours = (log) => {
-    const lastId = hourLogs.slice(-1)[0].id
-    log.id = lastId + 1
+    //update Timeframes
     const newHourLogs = [...hourLogs, log]
     setHourLogs(newHourLogs)
-  }
-
-  const handleRequestPto = (pto) => {
-    //update pto Requests
-    const lastId = ptoRequests.slice(-1)[0].id
-    pto.id = lastId + 1
-    const newPtoRequests = [...ptoRequests, pto]
-    setPtoRequests(newPtoRequests)
-    
-    //update pto Summary
-    const days = getDays(pto.startDate, pto.finishDate)
-    const newSummary = {...ptoSummary}
-    newSummary.availableDays = ptoSummary.availableDays - days
-    newSummary.usedDays = ptoSummary.usedDays + days
-    setPtoSummary(newSummary)
   }
 
   const handleHourUpdate = (hourLog) => {
@@ -95,6 +91,20 @@ function App() {
     const hourLogsList = hourLogs.filter( hourlog => hourlog.id !== id )
     setHourLogs(hourLogsList)
   }
+  
+
+  const handleRequestPto = (pto) => {
+    //update pto Requests
+    const newPtoRequests = [...ptoRequests, pto]
+    setPtoRequests(newPtoRequests)
+    
+    //update ptoSummary state
+    const days = getDays(pto.startdate, pto.finishdate)
+    const newSummary = {...ptoSummary}
+    newSummary.availabledays -= days
+    newSummary.useddays += days
+    handleUpdatePtoSummary(newSummary)
+  }
 
   const handlePtoUpdate = (pto) => {
     //update pto requests
@@ -104,12 +114,12 @@ function App() {
     setPtoRequests(newPtoRequests)
 
     //update pto Summary
-    const originalDays = getDays(originalPto.startDate, originalPto.finishDate)
-    const newDays = getDays(pto.startDate, pto.finishDate)
+    const originalDays = getDays(originalPto.startdate, originalPto.finishdate)
+    const newDays = getDays(pto.startdate, pto.finishdate)
     const newSummary = {...ptoSummary}
-    newSummary.availableDays = ptoSummary.availableDays + originalDays - newDays
-    newSummary.usedDays = ptoSummary.usedDays - originalDays + newDays
-    setPtoSummary(newSummary)
+    newSummary.availabledays = ptoSummary.availabledays + originalDays - newDays
+    newSummary.useddays = ptoSummary.useddays - originalDays + newDays
+    handleUpdatePtoSummary(newSummary)    
   }
 
   const handleDeletePto = (id) => {
@@ -118,16 +128,23 @@ function App() {
 
     //update pto Summary
     const deletedPto = ptoRequests.filter(pto => pto.id === id)[0]
-    const days = getDays(deletedPto.startDate, deletedPto.finishDate)
+    const days = getDays(deletedPto.startdate, deletedPto.finishdate)
     const newSummary = {...ptoSummary}
-    newSummary.availableDays = ptoSummary.availableDays + days
-    newSummary.usedDays = ptoSummary.usedDays - days
-    setPtoSummary(newSummary)
-  }
+    newSummary.availabledays += days
+    newSummary.useddays -= days
+    handleUpdatePtoSummary(newSummary)
+  }  
+
+  const handleUpdatePtoSummary = (newSummary) => {
+    const url = `${config.REACT_APP_API_URL_PTODAYS}/${user_id}`
+    fetchAPI('PUT', url, newSummary, setPtoSummary)
+  }  
+
 
   const handleIsLogged = (bool) => {
     setIsLogged(bool)
   }
+
 
   return (
     <div className="app">
@@ -161,6 +178,7 @@ function App() {
                           ptoSummary={ptoSummary} 
                           handleDeleteHours={handleDeleteHours} 
                           handleDeletePto={handleDeletePto} />
+                { showError && <ErrorMessage message={error} /> }
               </ComponentError>
             </Route>
             <Route path="/loghours">

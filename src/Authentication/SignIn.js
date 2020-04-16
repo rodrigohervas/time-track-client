@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './../style/signin.css'
 import { NavLink, useHistory } from 'react-router-dom'
+import FormErrorMessage from './../ErrorManagement/FormErrorMessage'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
 import config from './../config'
 
@@ -10,15 +11,13 @@ function SignIn(props) {
     const [password, setPassword] = useState(localStorage.getItem('password') || '')
     const [UsernameError, setUsernameError] = useState(false)
     const [PasswordError, setPasswordError] = useState(false)
-    const [Error, setError] = useState(false)
+    const [error, setError] = useState(null)
+    const [showError, setShowError] = useState(false)
     const history = useHistory()
 
     useEffect(() => {
         if(username !== '' && password !== '') {
-            localStorage.removeItem('username')
-            localStorage.removeItem('password')
-            localStorage.removeItem('role_id')
-            localStorage.removeItem('company_id')
+            localStorage.clear()
         }
     }, [username, password])
 
@@ -75,32 +74,31 @@ function SignIn(props) {
         };
 
         fetch(url, options)
-        .then(res => {
-            if (!res.ok) {
-                throw(res.status)
-            }
-            return res.json()
-        })
-        .then(userDB => {
-            if(userDB) {
-                localStorage.setItem('username', userDB.username)
-                localStorage.setItem('password', userDB.password)
-                localStorage.setItem('role_id', userDB.role_id)
-                localStorage.setItem('company_id', userDB.company_id)
+            .then(res => {
+                if (!res.ok) {
+                    throw Error( 'Oops, something went wrong...')
+                }
+                return res.json()
+            })
+            .then(userDB => {
+                if(userDB) {
+                    localStorage.setItem('user_id', userDB.id)
+                    localStorage.setItem('username', userDB.username)
+                    localStorage.setItem('password', userDB.password)
+                    localStorage.setItem('role_id', userDB.role_id)
+                    localStorage.setItem('company_id', userDB.company_id)
 
-                isLogged(true)
-                history.push('/dashboard')
+                    isLogged(true)
 
-                clearErrors()
-            }
-            else {
-                setError(true)
-            }
-        })
-        .catch(error => {
-            console.log('ERROR: ', error)
-            setError(true)
-        })
+                    clearErrors()
+                    
+                    history.push('/dashboard')
+                }
+            })
+            .catch(error => {
+                setError(error)
+                setShowError(true)
+            })
     }
 
     const handleSubmit = (e) => {
@@ -129,7 +127,7 @@ function SignIn(props) {
                            required 
                            onBlur={e => validateInput(e)}
                            onChange={e => handleChange(e)} />
-                    {UsernameError && <ErrorMessage message={'invalid username'}/>}
+                    {UsernameError && <FormErrorMessage message={'invalid username'}/>}
                 </div>
 
                 <div className="form-group">
@@ -140,17 +138,19 @@ function SignIn(props) {
                            required 
                            onBlur={e => validateInput(e)}
                            onChange={e => handleChange(e)} />
-                    {PasswordError && <ErrorMessage message={'invalid password'}/>}
+                    {PasswordError && <FormErrorMessage message={'invalid password'}/>}
                 </div>
 
                 <div className="form-group">
                     <input className="submit" type="submit" value="Sign In" />
-                    {Error && <ErrorMessage message={'User doesn\'t exist.'} />}
                 </div>
 
                 <div className="form-group">
                     <NavLink to="/signup" >Sign Up</NavLink>
                 </div>
+
+                { showError && <ErrorMessage message={error}/> }
+
             </form>
         </section>
     )

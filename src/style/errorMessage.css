@@ -1,7 +1,17 @@
-.error {
+.errorContainer {
+    border: 1px solid lightsalmon;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
     color: red;
-    width: 250px;
-    padding: 12px 20px;
-    margin: 8px 0;
+    
+    min-width: 240px;
+    max-width: 400px;
+    padding: 15px 30px;
+    margin: 15px auto;
     box-sizing: border-box;
 }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { NavLink } from 'react-router-dom'
+import './../style/componentError.css'
 
 class ComponentError extends Component{
     constructor(props) {
@@ -19,7 +21,14 @@ class ComponentError extends Component{
     render() {
         if(this.state.hasError) {
             return (
-                <h2 className="errorMessage"> Could not display this component </h2>
+                <div className="errorContainer">
+                    <div className="errorBox">
+                        <h2 className="errorMessage"> Oops, Something Went Wrong... </h2>
+                        <h4 className="errorMessageLink">
+                            <NavLink to="/dashboard">Go Back</NavLink>
+                        </h4>
+                    </div>
+                </div>
             )
         }
 

@@ -1,8 +1,14 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './../style/timeframe.css'
 import { useHistory } from 'react-router-dom'
+import ErrorMessage from './../ErrorManagement/ErrorMessage'
+import { formatDate } from './../helpers/helper'
+import config from'./../config'
 
 function TimeFrame(props) {
+
+    const [error, setError] = useState(null)
+    const [showError, setShowError] = useState(false)
 
     const history = useHistory();
 
@@ -23,26 +29,46 @@ function TimeFrame(props) {
     }
 
     const handleDelete = (id) => {
-        //TODO: delete at DB
-        
-        props.handleDeleteHours(id)
+        const url = `${config.REACT_APP_API_URL_TIMEFRAMES}/${id}`
+        const options = {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json', 
+                'Authorization': `Bearer ${config.REACT_APP_API_KEY}`
+            },
+        }
+
+        fetch(url, options)
+            .then(res => {
+                if(!res.ok) {
+                    throw Error('Oops! something went wrong: couldn\'t delete hours')
+                }
+                return res.json()
+            })
+            .then(data => {
+                //manage App state
+                props.handleDeleteHours(id)
+            })
+            .catch(error => {
+                setError(error)
+                setShowError(true)
+            })
     }
 
-
-    //const {date, startTime, finishTime, month, year, comments} = props.timeframe
-    const {date, startTime, finishTime} = props.timeframe
-    const hours = getHours(date, startTime, finishTime)
+    const {date, starttime, finishtime} = props.timeframe
+    
+    const hours = getHours(date, starttime, finishtime)
     
     return (
         <div className="timeframe">
             <div className="item date">
-                {date}
+                {formatDate(date, false)}
             </div>
             <div className="item time">
-                {startTime}
+               {starttime}
             </div>
             <div className="item time">
-                {finishTime}
+                {finishtime}
             </div>
             <div className="item time">
                 {hours}
@@ -53,7 +79,11 @@ function TimeFrame(props) {
             <div className="button-item">
                 <input type="button" id="delete" value="Delete" onClick={() => handleDelete(props.timeframe.id)} />
             </div>
+
+            { showError && <alert><ErrorMessage message={error} /></alert> }
+            
         </div>
+        
     )
 }
 

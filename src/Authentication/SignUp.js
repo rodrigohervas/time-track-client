@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import './../style/signin.css'
 import { NavLink, useHistory } from 'react-router-dom'
-import ErrorMessage from './../ErrorManagement/ErrorMessage'
+import FormErrorMessage from './../ErrorManagement/FormErrorMessage'
 import config from './../config'
+import ErrorMessage from './../ErrorManagement/FormErrorMessage'
 
 function SignUp(props) {
 
@@ -14,15 +15,13 @@ function SignUp(props) {
     const [PasswordError, setPasswordError] = useState(false)
     const [RoleError, setRoleError] = useState(false)
     const [CompanyError, setCompanyError] = useState(false)
-    const [Error, setError] = useState(false)
+    const [error, setError] = useState(null)
+    const [showError, setShowError] = useState(false)
     const history = useHistory()
 
     useEffect(() => {
         if(username !== '' && password !== '') {
-            localStorage.removeItem('username')
-            localStorage.removeItem('password')
-            localStorage.removeItem('role_id')
-            localStorage.removeItem('company_id')
+            localStorage.clear()
         }
     }, [username, password])
 
@@ -103,12 +102,13 @@ function SignUp(props) {
         fetch(url, options)
         .then(res => {
             if (!res.ok) {
-                throw(res.status)
+                throw Error( 'Oops, something went wrong...')
             }
             return res.json()
         })
         .then(userDB => {
             if(userDB) {
+                localStorage.setItem('user_id', userDB.id)
                 localStorage.setItem('username', userDB.username)
                 localStorage.setItem('password', userDB.password)
                 localStorage.setItem('role_id', userDB.role_id)
@@ -119,13 +119,10 @@ function SignUp(props) {
                 
                 clearErrors()
             }
-            else {
-                setError(true)
-            }
         })
         .catch(error => {
-            console.log('ERROR: ', error)
-            setError(true)
+            setError(error)
+            setShowError(true)
         })
     }
 
@@ -157,7 +154,7 @@ function SignUp(props) {
                            required 
                            onBlur={e => validateInput(e)}
                            onChange={e => handleChange(e)} />
-                    {UsernameError && <ErrorMessage message={'invalid username'}/>}
+                    {UsernameError && <FormErrorMessage message={'invalid username'}/>}
                 </div>
 
                 <div className="form-group">
@@ -168,7 +165,7 @@ function SignUp(props) {
                            required 
                            onBlur={e => validateInput(e)}
                            onChange={e => handleChange(e)} />
-                    {PasswordError && <ErrorMessage message={'invalid password'}/>}
+                    {PasswordError && <FormErrorMessage message={'invalid password'}/>}
                 </div>
 
                 <div className="form-group">
@@ -182,7 +179,7 @@ function SignUp(props) {
                         <option value="1">Team Member</option>
                         <option value="2">Manager</option>
                     </select>
-                    {RoleError && <ErrorMessage message={'Role must be selected'}/>}
+                    {RoleError && <FormErrorMessage message={'Role must be selected'}/>}
                 </div>
 
                 <div className="form-group">
@@ -193,17 +190,18 @@ function SignUp(props) {
                            required 
                            onBlur={e => validateInput(e)}
                            onChange={e => handleChange(e)} />
-                    {CompanyError && <ErrorMessage message={'invalid company name'}/>}
+                    {CompanyError && <FormErrorMessage message={'invalid company name'}/>}
                 </div>
 
                 <div className="form-group">
                     <input className="submit" type="submit" value="Sign Up" />
-                    {Error && <ErrorMessage message={'Error creating user.'} />}
                 </div>
 
                 <div className="form-group">
                     <NavLink to="/signin" >Sign In</NavLink>
                 </div>
+
+                { showError && <ErrorMessage message={this.error} /> }
             </form>
         </section>
     )
