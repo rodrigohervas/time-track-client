@@ -49,7 +49,7 @@ function App() {
       fetch(url, options)
       .then(res => {
         if (!res.ok) {
-          throw Error( `Something went wrong: No data available`)
+          throw Error( `No data available`)
         }
         return res.json()
       })

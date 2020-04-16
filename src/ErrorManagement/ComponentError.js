@@ -21,7 +21,7 @@ class ComponentError extends Component{
     render() {
         if(this.state.hasError) {
             return (
-                <div className="errorContainer">
+                <div className="errorCont">
                     <div className="errorBox">
                         <h2 className="errorMessage"> Oops, Something Went Wrong... </h2>
                         <h4 className="errorMessageLink">

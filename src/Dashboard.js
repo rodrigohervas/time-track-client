@@ -72,7 +72,12 @@ function Dashboard(props) {
                     <PtoSummary ptoSummary={ptoSummary} />
                 </div>
                 <div className="ptoRequests">
-                    {ptos}
+                    { ptos }
+                    { ptos.length === 0 && <div className="pto">
+                                             <div className="item date">
+                                               {`No Ptos Logged yet`}
+                                             </div>
+                                           </div> }
                 </div>
             </section>
 
