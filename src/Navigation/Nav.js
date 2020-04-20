@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './../style/Nav.css'
+import logo from './../img/timetrack-logo-colors.png'
 
 function Nav(props) {
 
@@ -18,7 +19,7 @@ function Nav(props) {
     return (
         <div className="nav">
             <div className="logo">
-                {'Time Track logo'}
+                <img src={logo} alt="TimeTrack logo" />
             </div>
             <div className="menu">
                 <NavLink className="navlink" to="/">

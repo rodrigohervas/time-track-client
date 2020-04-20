@@ -131,8 +131,8 @@ function UpdatePto(props) {
         
     return (
         <div className="ptorequest-container">
-            <header>
-                <h1>Request PTO:</h1>
+            <header className="main-header">
+                <h1>Update Request PTO:</h1>
             </header>
             
             <section>

@@ -20,20 +20,3 @@
     justify-content: center;
     margin: 10px 30px;
 }
-
-input, select {
-    width: 250px;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.submit {
-    /* border: 1px solid green; */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}

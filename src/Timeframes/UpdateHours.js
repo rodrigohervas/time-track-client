@@ -127,8 +127,8 @@ function UpdateHours(props) {
     
     return (
         <div className="loghours-container">
-            <header>
-                <h1>Log working hours:</h1>
+            <header className="main-header">
+                <h1>Update working hours:</h1>
             </header>
             
             <section>

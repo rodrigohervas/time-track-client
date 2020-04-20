@@ -14,6 +14,7 @@ function LogHours(props) {
     const [DateError, setDateError] = useState(false)
     const [StartTimeError, setStartTimeError] = useState(false)
     const [FinishTimeError, setFinishTimeError] = useState(false)
+    const [CommentsError, setCommentsError] = useState(false)
     const [error, setError] = useState(null)
     const [showError, setShowError] = useState(false)
 
@@ -56,10 +57,17 @@ function LogHours(props) {
         else {
             setFinishTimeError(false)
         }
+
+        if(!comments) {
+            setCommentsError(true)
+        }
+        else {
+            setCommentsError(false)
+        }
     }
 
     const isValid = () => {
-        if(DateError || StartTimeError || FinishTimeError) {
+        if(DateError || StartTimeError || FinishTimeError || CommentsError) {
             return false
         }
 
@@ -70,6 +78,7 @@ function LogHours(props) {
         setDateError(false)
         setStartTimeError(false)
         setFinishTimeError(false)
+        setCommentsError(false)
     }
 
     const handleSubmit = (e) => {
@@ -113,10 +122,15 @@ function LogHours(props) {
                 })
         }
     }
+
+    const setFocus = (e) => {
+        console.log('E: ', e.target)
+        e.target.focus()
+    }
     
     return (
         <div className="loghours-container">
-            <header>
+            <header className="main-header">
                 <h1>Log working hours:</h1>
             </header>
             
@@ -129,6 +143,7 @@ function LogHours(props) {
                         <input type="date" name="date" id="date" placeholder="mm/dd/yyy" 
                                onBlur={e => validateInput(e)}
                                onChange={ e => updateDate(e.target.value) } 
+                               onLoad={(e) => setFocus(e)} 
                                required />
                         { DateError && <FormErrorMessage message={'Date is required'}/> }
                     </div>
@@ -161,7 +176,10 @@ function LogHours(props) {
                             Comments:
                         </label>
                         <textarea id="comments" name="comments" placeholder="Comments" 
-                               onChange={ e => updateComments(e.target.value) } required />
+                               onBlur={e => validateInput(e)} 
+                               onChange={ e => updateComments(e.target.value) } 
+                               required />
+                               {CommentsError && <FormErrorMessage message={'Comments are required'}/>}
                     </div>
 
                     <div className="form-group">

@@ -4,24 +4,57 @@
     justify-content: center;
     align-items: center;
 
-    border: 1px solid #ddd;
+    border: 1px solid blue; /*var(--row-border-color);*/
     border-radius: 3px;
-    margin: 10px 0px;
+    margin: 10px auto;
+    min-width: 250px;
 }
 
 .top {
-    margin: 10px;
+    padding: 10px;
 }
 
 .bottom  {
-    border-top: 1px solid #ddd;
-    margin: 10px;
+    border-top: 1px solid var(--row-border-color);
+    padding: 10px;
+}
+
+.onleft {
+    padding: 10px;
+}
+
+.onright {
+    border-top: 1px solid var(--row-border-color);
+    padding: 10px;
 }
 
 .num-days {
     margin: 0px 10px;
 }
 
-@media screen and (min-width: 540px) {
+.num-days-separator {
+    visibility: hidden;
+}
 
+@media screen and (min-width: 350px) {
+    .bottom {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .num-days-separator {
+        visibility: visible;
+    }
+
+    .onleft {
+        padding: 10px;
+    }
+    
+    .onright {
+        border-top: 0px;
+        border-left: 1px solid var(--row-border-color);
+        padding: 10px;
+    }
 }

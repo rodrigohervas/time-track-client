@@ -9,7 +9,6 @@ import SignUp from './Authentication/SignUp'
 import Dashboard from './Dashboard'
 import LogHours from './Timeframes/LogHours'
 import PtoRequest from './Pto/PtoRequest'
-import ptosummary from './static-data/ptosummary'
 import UpdateHours from './Timeframes/UpdateHours'
 import UpdatePto from './Pto/UpdatePto'
 import AuthWrapper from './Authentication/AuthWrapper'
@@ -24,7 +23,7 @@ function App() {
 
   const [hourLogs, setHourLogs] = useState([])
   const [ptoRequests, setPtoRequests] = useState([])
-  const [ptoSummary, setPtoSummary] = useState({})
+  const [ptoSummary, setPtoSummary] = useState({totaldays:0, useddays:0, availabledays:0})
   const [isLogged, setIsLogged] = useState(localStorage.getItem('username') !== null)
   const [error, setError] = useState(null)
   const [showError, setShowError] = useState(false)

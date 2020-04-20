@@ -17,6 +17,7 @@ function PtoRequest(props) {
     const [typeError, setTypeError] = useState(false)
     const [StartDateError, setStartDateError] = useState(false)
     const [FinishDateError, setFinishDateError] = useState(false)
+    const [CommentsError, setCommentsError] = useState(false)
     const [error, setError] = useState(null)
     const [showError, setShowError] = useState(false)
     const history = useHistory()
@@ -59,10 +60,17 @@ function PtoRequest(props) {
         else { 
             setFinishDateError(false)
         }
+
+        if (!comments) {
+            setCommentsError(true)
+        }
+        else { 
+            setCommentsError(false)
+        }
     }
 
     const isValid = ()  => {
-        if(typeError || StartDateError || FinishDateError) {
+        if(typeError || StartDateError || FinishDateError || CommentsError) {
             return false
         }
 
@@ -73,6 +81,7 @@ function PtoRequest(props) {
         setTypeError(false)
         setStartDateError(false)
         setFinishDateError(false)
+        setCommentsError(false)
     }
 
     const handleSubmit = (e) => {
@@ -123,7 +132,7 @@ function PtoRequest(props) {
 
     return (
         <div className="ptorequest-container">
-            <header>
+            <header className="main-header">
                 <h1>Request PTO:</h1>
             </header>
             
@@ -175,7 +184,10 @@ function PtoRequest(props) {
                             <div className="form-group">
                                 <label htmlFor="comments">Comments:</label>
                                 <textarea id="comments" name="comments" placeholder="Comments" 
-                                          onChange={ e => updateComments(e.target.value)} required></textarea>
+                                          onBlur={e => validateInput(e)} 
+                                          onChange={ e => updateComments(e.target.value)} 
+                                          required></textarea>
+                                { CommentsError && <FormErrorMessage message={'Comments are mandatory'} />}
                             </div>
                             <div className="form-group">
                                 <div className="buttons">

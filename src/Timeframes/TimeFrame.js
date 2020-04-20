@@ -25,7 +25,7 @@ function TimeFrame(props) {
         history.push({
             pathname: `/updateHours/${id}`, 
             hourId: id
-          })
+        })
     }
 
     const handleDelete = (id) => {
@@ -55,7 +55,7 @@ function TimeFrame(props) {
             })
     }
 
-    const {date, starttime, finishtime} = props.timeframe
+    const {id, date, starttime, finishtime} = props.timeframe
     
     const hours = getHours(date, starttime, finishtime)
     
@@ -74,16 +74,15 @@ function TimeFrame(props) {
                 {hours}
             </div>
             <div className="button-item">
-                <input type="button" id="edit" value="Edit" onClick={() => handleUpdate(props.timeframe.id)} />
+                <input type="button" id="edit" value="Edit" onClick={() => handleUpdate(id)} />
             </div>
             <div className="button-item">
-                <input type="button" id="delete" value="Delete" onClick={() => handleDelete(props.timeframe.id)} />
+                <input type="button" id="delete" value="Delete" onClick={() => handleDelete(id)} />                
             </div>
 
             { showError && <alert><ErrorMessage message={error} /></alert> }
             
         </div>
-        
     )
 }
 

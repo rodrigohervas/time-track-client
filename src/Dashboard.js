@@ -37,7 +37,7 @@ function Dashboard(props) {
     
     return (        
         <div className="dashboard-container">
-            <header>
+            <header className="main-header">
                 <h1>Dashboard:</h1>
             </header>
 

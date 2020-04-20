@@ -1,20 +1,19 @@
+
 .nav {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
-    background-color: #999;
-    color: #111;
-    height: 200px;
-    max-width: 100%;
+    transition: all 0.4s ease 0s;
 }
 
 .logo {
+    /* border: 1px solid blue; */
     margin: 10px;
 }
 
 .menu {
+    /* border: 1px solid black; */
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
@@ -25,19 +24,16 @@
 }
 
 /* Non-mobile */
-@media screen and (min-width: 300px) {
-    
-}
-
-@media screen and (min-width: 780px) {
+@media screen and (min-width: 1060px) {
     .nav, .menu {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        transition: all 0.4s ease 0s;
     }
 
     .nav {
-        height: 80px;
+        height: 100px;
     }
 
     .menu {

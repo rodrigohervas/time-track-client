@@ -1,11 +1,38 @@
+:root {
+  --main-bg-color: #fff;
+  --main-font-color: #000;  
+  --secondary-bg-color: #00AA25;
+  --secondary-font-color: #fff;
+
+  --main-title-bgcolor: #0E57F7;
+  --main-title-font-color: #DAEEE6;
+  --sub-main-title-bgcolor: #00AB25;
+  --sub-main-title-font-color: #000;  
+
+  --row-border-color: #00AA25;
+
+  --button-bgcolor-normal: #00C123;
+  --button-bgcolor-hover:  #016D1A;
+  --button-bgcolor-delete-hover: #FF8121;
+
+  --error-bgcolor: #016D1A;
+  --error-font-color: #016D1A;
+  --error-border-color: lightsalmon;
+
+  --headers-font: 'Open Sans', sans-serif;
+  --text-font: 'Montserrat', sans-serif;
+  --nav-font: 'Cairo', sans-serif;
+  --nav-font-color: #011E08;
+  --nav-font-color-hover: #525275;
+}
+
 body {
   padding: 0px;
   margin: 0px;
 }
 
 .app {
-  /* border: 2px solid black; 
-  background-color: lightgreen;*/
+  /* border: 2px solid black;*/
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -14,4 +41,103 @@ body {
 
 .main-container {
   flex-grow: 1;
+}
+
+.main-header {
+  /* border: 1px solid blue; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 25px auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--headers-font);
+  letter-spacing: 2px;
+}
+
+p, div, input, select, button, textarea {
+  font-family: var(--text-font);
+  letter-spacing: 1.5px;
+  font-weight: 500;
+}
+
+input, select, textarea {
+  width: 250px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid var(--button-bgcolor-hover);
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+textarea {
+  height: 150px;
+  resize: none;
+}
+
+input[type=button] {
+  background-color: var(--button-bgcolor-normal);
+  transition: all 0.3s ease 0s;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 90px;
+}
+
+input[type=button]:hover {
+  background-color: var(--button-bgcolor-hover);
+  color: var(--secondary-font-color);
+}
+
+#delete:hover  {
+  background-color: var(--button-bgcolor-delete-hover) !important;
+  color: var(--secondary-font-color);
+}
+  
+input[type=submit] {
+  background-color: var(--button-bgcolor-normal);
+  transition: all 0.3s ease 0s;
+  width: 90px;
+}
+
+input[type=submit]:hover {
+  background-color: var(--button-bgcolor-hover);
+  color: var(--secondary-font-color);
+}
+
+.num-days {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.nav {
+  background-color: var(--secondary-bg-color);
+  color: var(--secondary-font-color);
+  height: 330px;
+  max-width: 100%;
+}
+
+.footer {
+  background-color: var(--secondary-bg-color);
+  color: var(--secondary-font-color);
+  height: 210px;
+  max-width: 100%;
+}
+
+.menu > .navlink, .info > .navlink  {
+  color: var(--nav-font-color);
+  text-decoration: none;
+  transition: all 0.3s ease 0s;
+  font-family: var(--nav-font) !important;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.menu > .navlink:hover, .info > .navlink:hover {
+  color: var(--nav-font-color-hover);
+  text-decoration: none;
 }

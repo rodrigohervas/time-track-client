@@ -3,7 +3,7 @@ import './../style/ptoSummary.css'
 
 function PtoSummary(props) {
 
-    const {user_id, availabledays, useddays, totaldays} = props.ptoSummary
+    const {availabledays, useddays, totaldays} = props.ptoSummary
 
     return (
         <div className="ptoSummary">
@@ -12,11 +12,15 @@ function PtoSummary(props) {
                 <label className="type-days">Available days</label>
             </div>
             <div className="bottom">
-                <label className="num-days">{useddays}</label>
-                <label className="type-days">Used days</label>
-                <label className="num-days">|</label>
-                <label className="num-days">{totaldays}</label>
-                <label className="type-days">Total days</label>
+                <div className="bottom-right onleft">
+                    <label className="num-days">{useddays}</label>
+                    <label className="type-days">Used days</label>
+                </div>
+                {/* <div className="num-days-separator">|</div> */}
+                <div className="bottom-right onright">               
+                    <label className="num-days">{totaldays}</label>
+                    <label className="type-days">Total days</label>
+                </div>
             </div>
         </div>
     )
