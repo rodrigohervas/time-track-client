@@ -5,7 +5,7 @@ React client to fetch CRUD operations from server repo
 
 ## Description: 
 
-Time track is a React application that allows users to log their daily working hours and Paid-Time-Off days to keep employee time records. The users can log the worked hours and requested PTO days, and they will safely be stored in the cloud.
+Time track is a React application that allows users to store and manage their work time records and Paid-Time-Off days. The users can log the worked hours and requested PTO days, and they will safely be stored in the cloud.
 
 
 ## Technologies used: 
