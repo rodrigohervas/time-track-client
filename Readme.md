@@ -32,19 +32,19 @@ password: michael
 
 In the Dashboard the user can find all the information that is already logged in the application:
 
-https://gist.github.com/rodrigohervas/594ed46d802306421807b7939281a827#gistcomment-3262469
+![Time Track Dashboard Page screenshot](./public/images/dashboard-page-xl.png)
 
 ### Log Hours:
 
 In the Log Hours page the user will be able to insert the employee time record:
 
-https://gist.github.com/rodrigohervas/594ed46d802306421807b7939281a827#gistcomment-3262472
+![Time Track Log Hours Page screenshot](./public/images/log-hours-page-xl.png)
 
 ### Request PTO:
 
 In the Request PTO page users will be able to insert the Paid-Time-Off they request:
 
-https://gist.github.com/rodrigohervas/594ed46d802306421807b7939281a827#gistcomment-3262476
+![Time Track Request PTO Page screenshot](./public/images/request-pto-xl.png)
 
 
 ## Set up
