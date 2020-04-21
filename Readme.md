@@ -44,7 +44,7 @@ In the Log Hours page the user will be able to insert the employee time record:
 
 In the Request PTO page users will be able to insert the Paid-Time-Off they request:
 
-![Time Track Request PTO Page screenshot](./public/images/request-pto-xl.png)
+![Time Track Request PTO Page screenshot](./public/images/request-pto-page-xl.png)
 
 
 ## Set up
