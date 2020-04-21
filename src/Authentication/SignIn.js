@@ -150,8 +150,15 @@ function SignIn(props) {
                 </div>
 
                 { showError && <ErrorMessage message={error}/> }
+                
+                <div>
+                    <br /><br />
+                    <p><b>Test user:</b> michael@jones.com</p>
+                    <p><b>Test password:</b> michael</p>
+                </div>
 
             </form>
+            
         </section>
     )
 }
