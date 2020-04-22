@@ -6,8 +6,13 @@ import ErrorMessage from './../ErrorManagement/ErrorMessage'
 import config from './../config'
 import { formatDate } from './../helpers/helper'
 
+/**
+ * UpdatePto component
+ * @param {object} props 
+ */
 function UpdatePto(props) {
 
+    //variable declarations
     const [ptoId, setPtoId] = useState('')
     const [type, setType] = useState('')
     const [startdate, setStartDate] = useState('')
@@ -23,6 +28,11 @@ function UpdatePto(props) {
 
     const history = useHistory()
 
+    /**
+     * useEffect hook: 
+     * a. loads pto data into localStorage and sets pto vars if props has data (when it loads normally)
+     * b. gets pto data from localStorage and sets pto vars if props is empty (when browser is refreshed)
+     */
     useEffect(() =>{
         if(props.pto) {
             localStorage.setItem('ptoId', props.pto.id)
@@ -39,6 +49,10 @@ function UpdatePto(props) {
         setComments(localStorage.getItem('comments'))
     }, [])
 
+    /**
+     * function to clear pto data from localStorage before redirecting to another component.
+     * It is called from cancel event handler or from submit event handler.
+     */
     const clearLocalState = () => {
         localStorage.removeItem('ptoId')
         localStorage.removeItem('type')
@@ -47,22 +61,42 @@ function UpdatePto(props) {
         localStorage.removeItem('comments')
     }
 
+    /**
+     * event handler to set the type state on input change
+     * @param {string} type 
+     */
     const updateType = (type) => {
         setType(type)
     }
 
+    /**
+     * event handler to set the startdate state on input change
+     * @param {string} startdate 
+     */
     const updateStartDate = (startdate) => {
         setStartDate(startdate)
     }
 
+    /**
+     * event handler to set the finishdate state on input change
+     * @param {string} finishdate 
+     */
     const updateFinishDate = (finishdate) => {
         setFinishDate(finishdate)
     }
 
+    /**
+     * event handler to set the comments state on input change
+     * @param {string} comments 
+     */
     const updateComments = (comments) => {
         setComments(comments)
     }
 
+    /**
+     * event handler to set input error when exiting the input (onBlur)
+     * @param {event} e 
+     */
     const validateInput = (e) => {
         if (!type) {
             setTypeError(true)
@@ -86,6 +120,10 @@ function UpdatePto(props) {
         }
     }    
 
+    /**
+     * validator the returns if there's any error for any field in the form
+     * called from form submit handler
+     */
     const isValid = ()  => {
         if(typeError || StartDateError || FinishDateError) {
             return false
@@ -94,12 +132,21 @@ function UpdatePto(props) {
         return true
     }
 
+    /**
+     * function to clear all errors before redirecting in form submmit
+     */
     const clearErrors = () => {
         setTypeError(false)
         setStartDateError(false)
         setFinishDateError(false)
     }
 
+    /**
+     * event handler to manage the form submit: 
+     * 1. puts pto to API
+     * 2. sets render prop handlePtoUpdate(pto) to update pto state in App.js
+     * @param {event} e 
+     */
     const handleSubmit = (e) => {
         e.preventDefault()
         
@@ -143,6 +190,11 @@ function UpdatePto(props) {
             }
     }
 
+    /**
+     * event handler to handle the cancel button click event:
+     *  1. clears all pto data form localStorage
+     *  2. redirects to dashboard 
+     */
     const handleCancel = () => {
         clearLocalState()
         history.push('/dashboard')

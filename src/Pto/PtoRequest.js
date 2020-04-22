@@ -62,7 +62,7 @@ function PtoRequest(props) {
     }
 
     /**
-     * event handler to set input error when exting the input (onBlur)
+     * event handler to set input error when exiting the input (onBlur)
      * @param {event} e 
      */
     const validateInput = (e) => {
