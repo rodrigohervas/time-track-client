@@ -2,6 +2,10 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './../style/footer.css'
 
+/**
+ * Footer Component
+ * @param {object} props 
+ */
 function Footer(props) {
 
     
