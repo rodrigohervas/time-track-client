@@ -21,12 +21,12 @@ export const getDays = (startDate, finishDate) => {
 }
 
 /**
-     * function that returns the number of hours between 2 times
-     * @param {string} date 
-     * @param {string} startTime 
-     * @param {string} finishTime 
-     */
-    const getHours = (date, startTime, finishTime) => {
+ * function that returns the number of hours between 2 times
+ * @param {string} date 
+ * @param {string} startTime 
+ * @param {string} finishTime 
+ */
+export const getHours = (date, startTime, finishTime) => {
         const startDate = new Date(date + ' ' + startTime)
         const startMinutes  = (startDate.getHours() * 60)  + startDate.getMinutes()
         const finishDate = new Date(date + ' ' + finishTime)
