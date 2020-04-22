@@ -2,25 +2,26 @@ import React, {useState} from 'react'
 import './../style/timeframe.css'
 import { useHistory } from 'react-router-dom'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
-import { formatDate } from './../helpers/helper'
+import { formatDate, getHours } from './../helpers/helper'
 import config from'./../config'
 
+/**
+ * Timeframe component
+ * @param {object} props 
+ */
 function TimeFrame(props) {
 
+    //Variable declarations
     const [error, setError] = useState(null)
     const [showError, setShowError] = useState(false)
 
     const history = useHistory();
 
-    const getHours = (date, startTime, finishTime) => {
-        const startDate = new Date(date + ' ' + startTime)
-        const startMinutes  = (startDate.getHours() * 60)  + startDate.getMinutes()
-        const finishDate = new Date(date + ' ' + finishTime)
-        const finishMinutes  = (finishDate.getHours() * 60) + finishDate.getMinutes()
-        const hours = (finishMinutes - startMinutes) / 60
-        return hours.toFixed(2) 
-    }
-
+    /**
+     * update timeframe event handler to handle the update button click:
+     * it redirects to UpdateHours component, passing the timeframe id (hourId)
+     * @param {number} id 
+     */
     const handleUpdate = (id) => {
         history.push({
             pathname: `/updateHours/${id}`, 
@@ -28,6 +29,12 @@ function TimeFrame(props) {
         })
     }
 
+    /**
+     * delete event hanlder to handle the delete button click:
+     *  1. deletes in timeframe API
+     *  2. sets the handleDeleteHours(id) render prop to update timeframe state in App.js
+     * @param {number} id 
+     */
     const handleDelete = (id) => {
         const url = `${config.REACT_APP_API_URL_TIMEFRAMES}/${id}`
         const options = {
@@ -57,6 +64,7 @@ function TimeFrame(props) {
 
     const {id, date, starttime, finishtime} = props.timeframe
     
+    //get the number of hours between starttime and finishtime
     const hours = getHours(date, starttime, finishtime)
     
     return (
