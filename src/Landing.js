@@ -5,7 +5,10 @@ import requestPtoImg from './img/request-pto-page-md.png'
 import dashboardImg from './img/dashboard-page-md.png'
 import signinImg from './img/signin-page-md.png'
 
-
+/**
+ * Landing Component
+ * @param {object} props 
+ */
 function Landing(props) {
     
     return (
