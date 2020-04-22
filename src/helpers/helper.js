@@ -1,4 +1,9 @@
 
+/**
+ * function that returns the number of days that exist from one date to another date
+ * @param {string} startDate 
+ * @param {string} finishDate 
+ */
 export const getDays = (startDate, finishDate) => {
     let start = new Date(startDate + ' 9:00:00')
     const finish = new Date(finishDate + ' 9:00:00')
@@ -15,6 +20,13 @@ export const getDays = (startDate, finishDate) => {
     return days
 }
 
+/**
+ * function that formats an string for proper format:
+ *  a. to render it in an input type date (forInput = true)
+ *  b. to send it to the server (forInput = false)
+ * @param {string} date 
+ * @param {boolean} forInput 
+ */
 export const formatDate = (date, forInput) => {
     const newDate = new Date(date + " 00:00:00")
     
@@ -29,10 +41,18 @@ export const formatDate = (date, forInput) => {
     return forInput ? `${year}-${strMonth}-${strDay}` : `${strMonth}/${strDay}/${year}`
 }
 
+/**
+ * function to format a time string to HH:mm:ss
+ * @param {string} time 
+ */
 export const formatTime = (time) => {
     return time.length === 5 ? time + ':00' : time
 }
 
+/**
+ * function to format a days string to DD
+ * @param {string} days 
+ */
 export const formatDays = (days) => {
     const strDays = days.toString()
     return strDays.length === 1  ? '0' + strDays : strDays
