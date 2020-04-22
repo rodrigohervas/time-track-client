@@ -1,6 +1,10 @@
 import React from 'react'
 import './../style/ptoSummary.css'
 
+/**
+ * PtoSummary component
+ * @param {object} props 
+ */
 function PtoSummary(props) {
 
     const {availabledays, useddays, totaldays} = props.ptoSummary
