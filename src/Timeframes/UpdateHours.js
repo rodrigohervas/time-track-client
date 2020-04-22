@@ -6,8 +6,13 @@ import FormErrorMessage from './../ErrorManagement/FormErrorMessage'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
 import config from './../config'
 
-
+/**
+ * UpdateHours component
+ * @param {object} props 
+ */
 function UpdateHours(props) {
+
+    //variable declarations
     const [timeframeId, setTimeframeId] = useState('')
     const [date, setDate] = useState('')
     const [startTime, setStartTime] = useState('')
@@ -24,8 +29,11 @@ function UpdateHours(props) {
     const history = useHistory()
 
 
-
-    //sets date whith what's in localStorage
+    /** 
+     * useEffect hook: 
+     * a. loads timeframe data into localStorage and sets timeframe vars if props has data (when it loads normally)
+     * b. gets timeframe data from localStorage and sets timeframe vars if props is empty (when browser is refreshed)
+     */
     useEffect( () => {
         if(props.hourLog) {
             localStorage.setItem('timeframeId', props.hourLog.id)
@@ -42,6 +50,10 @@ function UpdateHours(props) {
 
     }, [])
     
+    /**
+     * function to clear timeframe data from localStorage before redirecting to another component.
+     * It is called from cancel event handler or from submit event handler.
+     */
     const clearLocalState = () => {
         localStorage.removeItem('timeframeId')
         localStorage.removeItem('date')
@@ -49,23 +61,43 @@ function UpdateHours(props) {
         localStorage.removeItem('finishtime')
         localStorage.removeItem('comments')
     }
-        
+    
+    /**
+     * event handler to set the date state on input change (onChange)
+     * @param {string} date 
+     */
     const updateDate = (date) => {
         setDate(date)
     }
 
-    const updateStartTime = (time) => {
-        setStartTime(formatTime(time))
+    /**
+     * event handler to set the starttime state on input change (onChange)
+     * @param {string} starttime 
+     */
+    const updateStartTime = (starttime) => {
+        setStartTime(formatTime(starttime))
     }
 
-    const updateFinishTime = (time) => {
-        setFinishTime(formatTime(time))
+    /**
+     * event handler to set the finishtime state on input change (onChange)
+     * @param {string} finishtime 
+     */
+    const updateFinishTime = (finishtime) => {
+        setFinishTime(formatTime(finishtime))
     }
 
+    /**
+     * event handler to set the comments state on input change (onChange)
+     * @param {string} comments 
+     */
     const updateComments = (comments) => {
         setComments(comments)
     }
 
+    /**
+     * event handler to set input error when exiting the input (onBlur)
+     * @param {event} e 
+     */
     const validateInput = (e) => {
         if(!date) {
             setDateError(true)
@@ -89,6 +121,10 @@ function UpdateHours(props) {
         }
     }
 
+    /**
+     * validator the returns if there's any error for any field in the form
+     * called from form submit handler
+     */
     const isValid = () => {
         if(DateError || StartTimeError || FinishTimeError) {
             return false
@@ -97,12 +133,21 @@ function UpdateHours(props) {
         return true
     }
 
+    /**
+     * function to clear all errors before redirecting in form submmit
+     */
     const clearErrors = () => {
         setDateError(false)
         setStartTimeError(false)
         setFinishTimeError(false)
     }
 
+    /**
+     * event handler to manage the form submit: 
+     * 1. puts timeframe to API
+     * 2. sets render prop handleHourUpdate(timeframe) to update timeframe state in App.js
+     * @param {event} e 
+     */
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -147,6 +192,11 @@ function UpdateHours(props) {
         }
     }
 
+    /**
+     * event handler to handle the cancel button click event:
+     *  1. clears all timeframe data form localStorage
+     *  2. redirects to dashboard 
+     */
     const handleCancel = () => {
         clearLocalState()
         history.push('/dashboard')

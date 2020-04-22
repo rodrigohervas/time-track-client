@@ -62,7 +62,7 @@ function UpdatePto(props) {
     }
 
     /**
-     * event handler to set the type state on input change
+     * event handler to set the type state on input change (onChange)
      * @param {string} type 
      */
     const updateType = (type) => {
@@ -70,7 +70,7 @@ function UpdatePto(props) {
     }
 
     /**
-     * event handler to set the startdate state on input change
+     * event handler to set the startdate state on input change (onChange)
      * @param {string} startdate 
      */
     const updateStartDate = (startdate) => {
@@ -78,7 +78,7 @@ function UpdatePto(props) {
     }
 
     /**
-     * event handler to set the finishdate state on input change
+     * event handler to set the finishdate state on input change (onChange)
      * @param {string} finishdate 
      */
     const updateFinishDate = (finishdate) => {
@@ -86,7 +86,7 @@ function UpdatePto(props) {
     }
 
     /**
-     * event handler to set the comments state on input change
+     * event handler to set the comments state on input change (onChange)
      * @param {string} comments 
      */
     const updateComments = (comments) => {
