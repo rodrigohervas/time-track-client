@@ -38,7 +38,7 @@ function LogHours(props) {
 
     /**
      * event handler to set the starttime state on input change (onChange)
-     * @param {string} time 
+     * @param {string} starttime 
      */
     const updateStartTime = (starttime) => {
         setStartTime(formatTime(starttime))
