@@ -8,6 +8,7 @@ import { formatDate } from './../helpers/helper'
 
 function UpdatePto(props) {
 
+    const [ptoId, setPtoId] = useState('')
     const [type, setType] = useState('')
     const [startdate, setStartDate] = useState('')
     const [finishdate, setFinishDate] = useState('')
@@ -23,11 +24,28 @@ function UpdatePto(props) {
     const history = useHistory()
 
     useEffect(() =>{
-        setType(pto.type)
-        setStartDate(pto.startdate)
-        setFinishDate(pto.finishdate)
-        setComments(pto.comments)
+        if(props.pto) {
+            localStorage.setItem('ptoId', props.pto.id)
+            localStorage.setItem('type', props.pto.type)
+            localStorage.setItem('startdate', props.pto.startdate)
+            localStorage.setItem('finishdate', props.pto.finishdate)
+            localStorage.setItem('comments', props.pto.comments)
+        }
+
+        setPtoId(localStorage.getItem('ptoId'))
+        setType(localStorage.getItem('type'))
+        setStartDate(localStorage.getItem('startdate'))
+        setFinishDate(localStorage.getItem('finishdate'))
+        setComments(localStorage.getItem('comments'))
     }, [])
+
+    const clearLocalState = () => {
+        localStorage.removeItem('ptoId')
+        localStorage.removeItem('type')
+        localStorage.removeItem('startdate')
+        localStorage.removeItem('finishdate')
+        localStorage.removeItem('comments')
+    }
 
     const updateType = (type) => {
         setType(type)
@@ -87,8 +105,8 @@ function UpdatePto(props) {
         
         if(isValid()) {
             const pto = {
-                id: props.pto.id, 
-                user_id: props.pto.user_id, 
+                id: parseInt(ptoId), 
+                user_id: parseInt(localStorage.getItem('user_id')), 
                 type: type, 
                 startdate: formatDate(startdate, false), 
                 finishdate: formatDate(finishdate, false), 
@@ -114,10 +132,8 @@ function UpdatePto(props) {
                 })
                 .then(data => {
                     props.handlePtoUpdate(pto)
-
+                    clearLocalState()
                     history.push('/dashboard')
-
-                    //clear Errors
                     clearErrors()
                 })
                 .catch(error => {
@@ -127,7 +143,12 @@ function UpdatePto(props) {
             }
     }
 
-    const { pto } = props
+    const handleCancel = () => {
+        clearLocalState()
+        history.push('/dashboard')
+    }
+
+    //const { pto } = props
         
     return (
         <div className="ptorequest-container">
@@ -186,7 +207,7 @@ function UpdatePto(props) {
                         </div>
                         <div className="form-group">
                             <div className="buttons">
-                                <input type="submit" value="Cancel" onClick={() => history.push('/dashboard')} />
+                                <input type="submit" value="Cancel" onClick={() => handleCancel()} />
                                 <input type="submit" value="Update" />
                             </div>
                         </div>
