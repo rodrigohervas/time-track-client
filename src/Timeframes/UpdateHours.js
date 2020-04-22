@@ -8,25 +8,48 @@ import config from './../config'
 
 
 function UpdateHours(props) {
+    const [timeframeId, setTimeframeId] = useState('')
     const [date, setDate] = useState('')
     const [startTime, setStartTime] = useState('')
     const [finishTime, setFinishTime] = useState('')
     const [comments, setComments] = useState('')
+
     const [DateError, setDateError] = useState(false)
     const [StartTimeError, setStartTimeError] = useState(false)
     const [FinishTimeError, setFinishTimeError] = useState(false)
+    
     const [error, setError] = useState(null)
     const [showError, setShowError] = useState(false)
+    
     const history = useHistory()
 
-       
+
+
+    //sets date whith what's in localStorage
     useEffect( () => {
-        setDate(formatDate(hourLog.date, true))
-        setStartTime(hourLog.starttime)
-        setFinishTime(hourLog.finishtime)
-        setComments(hourLog.comments)
+        if(props.hourLog) {
+            localStorage.setItem('timeframeId', props.hourLog.id)
+            localStorage.setItem('date', props.hourLog.date)
+            localStorage.setItem('starttime', props.hourLog.starttime)
+            localStorage.setItem('finishtime', props.hourLog.finishtime)
+            localStorage.setItem('comments', props.hourLog.comments)
+        }
+        setTimeframeId(localStorage.getItem('timeframeId'))
+        setDate( formatDate(localStorage.getItem('date'), true) )
+        setStartTime(localStorage.getItem('starttime'))
+        setFinishTime(localStorage.getItem('finishtime'))
+        setComments(localStorage.getItem('comments'))
+
     }, [])
     
+    const clearLocalState = () => {
+        localStorage.removeItem('timeframeId')
+        localStorage.removeItem('date')
+        localStorage.removeItem('starttime')
+        localStorage.removeItem('finishtime')
+        localStorage.removeItem('comments')
+    }
+        
     const updateDate = (date) => {
         setDate(date)
     }
@@ -85,7 +108,7 @@ function UpdateHours(props) {
 
         if(isValid()) {
             const timeframe = {
-                id: hourLog.id, 
+                id: parseInt(timeframeId), 
                 date: formatDate(date, false), 
                 starttime: startTime, 
                 finishtime: finishTime, 
@@ -115,6 +138,7 @@ function UpdateHours(props) {
                     history.push('/dashboard')
                     //clear errors
                     clearErrors()
+                    clearLocalState()
                 })
                 .catch(error => { 
                     setError(error)
@@ -123,8 +147,13 @@ function UpdateHours(props) {
         }
     }
 
+    const handleCancel = () => {
+        clearLocalState()
+        history.push('/dashboard')
+    }
+
     const { hourLog, handleHourUpdate } = props
-    
+
     return (
         <div className="loghours-container">
             <header className="main-header">
@@ -181,7 +210,7 @@ function UpdateHours(props) {
 
                     <div className="form-group">
                         <div className="buttons">
-                            <input type="submit" value="Cancel" onClick={() => history.push('/dashboard')} />
+                            <input type="submit" value="Cancel" onClick={() => handleCancel()} />
                             <input type="submit" value="Log" />
                         </div>
                     </div>
