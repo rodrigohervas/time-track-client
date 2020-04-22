@@ -5,26 +5,41 @@ import FormErrorMessage from './../ErrorManagement/FormErrorMessage'
 import config from './../config'
 import ErrorMessage from './../ErrorManagement/FormErrorMessage'
 
+/**
+ * SignUp component
+ * @param {object} props 
+ */
 function SignUp(props) {
 
+    //variable declaration
     const [username, setUsername] = useState(localStorage.getItem('username') || '')
     const [password, setPassword] = useState(localStorage.getItem('password') || '')
     const [role, setRole] = useState('')
     const [company, setCompany] = useState('')
+
     const [UsernameError, setUsernameError] = useState(false)
     const [PasswordError, setPasswordError] = useState(false)
     const [RoleError, setRoleError] = useState(false)
     const [CompanyError, setCompanyError] = useState(false)
+    
     const [error, setError] = useState(null)
     const [showError, setShowError] = useState(false)
+    
     const history = useHistory()
 
+    /** 
+     * useEffect hook: clears localStorage if there's no username/password in localStorage
+     */
     useEffect(() => {
         if(username !== '' && password !== '') {
             localStorage.clear()
         }
     }, [username, password])
 
+    /**
+     * event manager to set state to the changes in inputs
+     * @param {event} e 
+     */
     const handleChange = (e) => {
         if(e.target.name === 'username'){
             setUsername(e.target.value)
@@ -40,6 +55,10 @@ function SignUp(props) {
         }
     }
 
+    /**
+     * event handler to set errors changes in inputs onBlur
+     * @param {event} e 
+     */
     const validateInput = (e) => {
         if (!username.includes('@') || !username) {
             setUsernameError(true)
@@ -70,6 +89,10 @@ function SignUp(props) {
         }
     }
 
+    /**
+     * validator to check if username or password have an error.
+     * Called from submit handler
+     */
     const isValid = () => {
         if(UsernameError || PasswordError || RoleError || CompanyError) {
             return false
@@ -78,6 +101,9 @@ function SignUp(props) {
         return true
     }
 
+    /**
+     * function to clear errors after sign-in is done
+     */
     const clearErrors = () => {
         setUsernameError(false)
         setPasswordError(false)
@@ -86,6 +112,10 @@ function SignUp(props) {
         setError(false)
     }
 
+    /**
+     * fetch that posts the user to the API and stores it in localStorage
+     * @param {object} user 
+     */
     const manageUser = (user) => {
         const url = config.REACT_APP_API_URL_USERS
         const authorization = `Bearer ${config.REACT_APP_API_KEY}`
@@ -126,6 +156,11 @@ function SignUp(props) {
         })
     }
 
+    /**
+     * onSubmit event handler for the sign-up form
+     * calls manageUser() 
+     * @param {event} e 
+     */
     const handleSubmit = (e) => {
         e.preventDefault()
         
@@ -141,6 +176,9 @@ function SignUp(props) {
         }
     }
 
+    /**
+     * render prop to update sign-in state in App.js
+     */ 
     const { isLogged } = props
 
     return (

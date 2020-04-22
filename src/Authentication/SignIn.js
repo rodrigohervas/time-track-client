@@ -24,7 +24,7 @@ function SignIn(props) {
     const history = useHistory()
 
     /** 
-     * useEffect hook
+     * useEffect hook: clears localStorage if there's no username/password in localStorage
      */
     useEffect(() => {
         if(username !== '' && password !== '') {
@@ -66,7 +66,8 @@ function SignIn(props) {
     }
 
     /**
-     * validator to check if username or password have an error
+     * validator to check if username or password have an error.
+     * Called from submit handler
      */
     const isValid = () => {
         if(UsernameError || PasswordError) {
@@ -149,7 +150,6 @@ function SignIn(props) {
             manageUser(user)
         }
     }
-
     
     /**
      * render prop to update sign-in state in App.js
