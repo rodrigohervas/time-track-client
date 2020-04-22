@@ -158,7 +158,7 @@ function UpdateHours(props) {
                 starttime: startTime, 
                 finishtime: finishTime, 
                 comments: comments, 
-                user_id: hourLog.user_id
+                user_id: localStorage.getItem('user_id')
             }
 
             const url = `${config.REACT_APP_API_URL_TIMEFRAMES}/${timeframe.id}`
