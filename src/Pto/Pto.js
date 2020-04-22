@@ -6,13 +6,22 @@ import { getDays, formatDate, formatDays } from './../helpers/helper'
 import config from './../config'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
 
+/**
+ * Pto Component
+ * @param {object} props 
+ */
 function Pto(props) {
 
+    //variable declarations
     const [error, setError] = useState(null)
     const [showError, setShowError] = useState(false)
     
     const history = useHistory()
 
+    /**
+     * update event handler to redirect to UpdatePto passing the ptoId and route
+     * @param {number} id 
+     */
     const handleUpdate = (id) => {
         history.push({
             pathname: `/updatePto/${id}`, 
@@ -20,6 +29,10 @@ function Pto(props) {
         })
     }
 
+    /**
+     * delete event handler to delete a pto in the API, and then load the render prop handleDeletePto to update state in App.js
+     * @param {number} id 
+     */
     const handleDelete = (id) => {
         
         const url = `${config.REACT_APP_API_URL_PTOS}/${id}`
@@ -49,7 +62,11 @@ function Pto(props) {
     }
     
     const {type, startdate, finishdate, comments} = props.pto
+    
+    //get the days bethween two dates
     const days = getDays(startdate, finishdate)
+
+    //set the ptoType text for the type id
     const reasonText = ptoTypes[parseInt(type) - 1]
 
     return (
