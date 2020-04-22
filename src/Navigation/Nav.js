@@ -3,10 +3,20 @@ import { NavLink } from 'react-router-dom'
 import './../style/Nav.css'
 import logo from './../img/timetrack-logo-colors.png'
 
+/**
+ * Nav component
+ * @param {object} props 
+ */
 function Nav(props) {
 
+    //variable declarations
     let title = 'Sign In'
 
+    /**
+     * event handler to set the state of isLogged to the opposite:
+     *  - if isLogged: sets to false
+     *  - if !isLogged: sets to true
+     */
     const handleClick = () => {
         if(isLogged) {
             handleIsLogged(false)
@@ -14,6 +24,8 @@ function Nav(props) {
     }
 
     const {isLogged, handleIsLogged} = props
+    
+    //sets the SignIn/SignOut title in the nav button dependening on the state passed from App.js in isLogged prop
     title = isLogged ? 'Sign Out' : 'Sign In'
     
     return (
