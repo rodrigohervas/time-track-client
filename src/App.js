@@ -21,16 +21,26 @@ require('dotenv').config()
 
 function App() {
 
+  //variable declarations
   const [hourLogs, setHourLogs] = useState([])
   const [ptoRequests, setPtoRequests] = useState([])
   const [ptoSummary, setPtoSummary] = useState({totaldays:0, useddays:0, availabledays:0})
   const [isLogged, setIsLogged] = useState(localStorage.getItem('username') !== null)
+  
   const [error, setError] = useState(null)
   const [showError, setShowError] = useState(false)
+  
   const history = useHistory()
 
   const user_id = localStorage.getItem('user_id')
 
+  /**
+   * fecth API function to request data to server
+   * @param {string} verb 
+   * @param {string} url 
+   * @param {object} body 
+   * @param {function} callbackFunction 
+   */
   const fetchAPI = (verb, url, body, callbackFunction) => {
     
     const options = { 
@@ -64,7 +74,10 @@ function App() {
       })
   }
 
-
+  /**
+   * useEffect hook that runs after rendering,
+   * Requests data to API by calling fetchAPI() using the user_id
+   */
   useEffect( () => {
     if(user_id) {
       fetchAPI('POST', `${config.REACT_APP_API_URL_TIMEFRAMES}/${user_id}`, null, setHourLogs)
@@ -73,25 +86,44 @@ function App() {
     }
   }, [user_id])
 
-
+  
+  /**
+   * timeframes state manager (add)
+   * called from render prop from LogHours component
+   * @param {object} log 
+   */
   const handleLogHours = (log) => {
     //update Timeframes
     const newHourLogs = [...hourLogs, log]
     setHourLogs(newHourLogs)
   }
 
+  /**
+   * timeframes state manager (update)
+   * called from render prop from UpdateHours component
+   * @param {object} hourLog 
+   */
   const handleHourUpdate = (hourLog) => {
     const hourLogsList = hourLogs.filter( hourlog => hourlog.id !== hourLog.id)
     const newHourLogs = [...hourLogsList, hourLog]
     setHourLogs(newHourLogs)
   }
 
+  /**
+   * timeframes state manager (delete)
+   * called from render prop from Dashboard component
+   * @param {number} id
+   */
   const handleDeleteHours = (id) => {
     const hourLogsList = hourLogs.filter( hourlog => hourlog.id !== id )
     setHourLogs(hourLogsList)
   }
   
-
+  /**
+   * Pto state manager (add)
+   * called from render prop from PtoRequest component
+   * @param {object} pto
+   */
   const handleRequestPto = (pto) => {
     //update pto Requests
     const newPtoRequests = [...ptoRequests, pto]
@@ -105,6 +137,11 @@ function App() {
     handleUpdatePtoSummary(newSummary)
   }
 
+  /**
+   * Pto state manager (update)
+   * called from render prop from UpdatePto component
+   * @param {object} pto
+   */
   const handlePtoUpdate = (pto) => {
     //update pto requests
     const originalPto = ptoRequests.filter( ptoRequest => ptoRequest.id === pto.id)[0]
@@ -121,6 +158,11 @@ function App() {
     handleUpdatePtoSummary(newSummary)    
   }
 
+  /**
+   * Pto state manager (delete)
+   * called from render prop from Dashboard component
+   * * @param {number} id
+   */
   const handleDeletePto = (id) => {
     const ptoList = ptoRequests.filter( pto => pto.id !== id)
     setPtoRequests(ptoList)
@@ -134,12 +176,21 @@ function App() {
     handleUpdatePtoSummary(newSummary)
   }  
 
+  /**
+   * Updates PtoSummary data to API by calling fetchAPI()
+   * is called from Pto state manager methods
+   *  @param {object} newSummary
+   */
   const handleUpdatePtoSummary = (newSummary) => {
     const url = `${config.REACT_APP_API_URL_PTODAYS}/${user_id}`
     fetchAPI('PUT', url, newSummary, setPtoSummary)
   }  
 
-
+  /**
+   * function to manage state if user is signedin in the app
+   * passed to components: Nav, SignIn, SignUp
+   * @param {isLogged} bool 
+   */
   const handleIsLogged = (bool) => {
     setIsLogged(bool)
   }
