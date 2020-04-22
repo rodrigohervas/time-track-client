@@ -5,22 +5,37 @@ import FormErrorMessage from './../ErrorManagement/FormErrorMessage'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
 import config from './../config'
 
+/**
+ * Sign-in form component
+ * @param {object} props 
+ */
 function SignIn(props) {
 
+    //variable declarations
     const [username, setUsername] = useState(localStorage.getItem('username') || '')
     const [password, setPassword] = useState(localStorage.getItem('password') || '')
+
     const [UsernameError, setUsernameError] = useState(false)
     const [PasswordError, setPasswordError] = useState(false)
+    
     const [error, setError] = useState(null)
     const [showError, setShowError] = useState(false)
+    
     const history = useHistory()
 
+    /** 
+     * useEffect hook
+     */
     useEffect(() => {
         if(username !== '' && password !== '') {
             localStorage.clear()
         }
     }, [username, password])
 
+    /**
+     * event manager to set state to the changes in inputs
+     * @param {event} e 
+     */
     const handleChange = (e) => {
         if(e.target.name === 'username'){
             setUsername(e.target.value)
@@ -30,6 +45,10 @@ function SignIn(props) {
         }
     }
 
+    /**
+     * event handler to set errors changes in inputs onBlur
+     * @param {event} e 
+     */
     const validateInput = (e) => {
         if (!username.includes('@') || !username) {
             setUsernameError(true)
@@ -46,6 +65,9 @@ function SignIn(props) {
         }
     }
 
+    /**
+     * validator to check if username or password have an error
+     */
     const isValid = () => {
         if(UsernameError || PasswordError) {
             return false
@@ -54,12 +76,19 @@ function SignIn(props) {
         return true
     }
 
+    /**
+     * function to clear errors after sign-in is done
+     */
     const clearErrors = () => {
         setUsernameError(false)
         setPasswordError(false)
         setError(false)
     }
 
+    /**
+     * fetch that gets the user from the API and stores it in localStorage
+     * @param {object} user 
+     */
     const manageUser = (user) => {
         const url = config.REACT_APP_API_URL_LOGIN
         const authorization = `Bearer ${config.REACT_APP_API_KEY}`
@@ -82,12 +111,14 @@ function SignIn(props) {
             })
             .then(userDB => {
                 if(userDB) {
+                    //set user data in localStorage
                     localStorage.setItem('user_id', userDB.id)
                     localStorage.setItem('username', userDB.username)
                     localStorage.setItem('password', userDB.password)
                     localStorage.setItem('role_id', userDB.role_id)
                     localStorage.setItem('company_id', userDB.company_id)
 
+                    //update sign-in state in App.js
                     isLogged(true)
 
                     clearErrors()
@@ -101,6 +132,11 @@ function SignIn(props) {
             })
     }
 
+    /**
+     * onSubmit event handler for the sign-in form
+     * calls manageUser() 
+     * @param {event} e 
+     */
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -114,6 +150,10 @@ function SignIn(props) {
         }
     }
 
+    
+    /**
+     * render prop to update sign-in state in App.js
+     */ 
     const { isLogged } = props
 
     return (
