@@ -7,38 +7,64 @@ import FormErrorMessage from './../ErrorManagement/FormErrorMessage'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
 import config from './../config'
 
-
+/**
+ * PtoRequest Component
+ * @param {object} props 
+ */
 function PtoRequest(props) {
     
+    //variable declarations
     const [type, setType] = useState('')
     const [startdate, setStartDate] = useState('')
     const [finishdate, setFinishDate] = useState('')
     const [comments, setComments] = useState('')
+
     const [typeError, setTypeError] = useState(false)
     const [StartDateError, setStartDateError] = useState(false)
     const [FinishDateError, setFinishDateError] = useState(false)
     const [CommentsError, setCommentsError] = useState(false)
+    
     const [error, setError] = useState(null)
     const [showError, setShowError] = useState(false)
+    
     const history = useHistory()
     
-
+    /**
+     * event handler to set the type state on input change
+     * @param {string} type 
+     */
     const updateType = (type) => {
         setType(type)
     }
 
+    /**
+     * event handler to set the startdate state on input change
+     * @param {string} startdate 
+     */
     const updateStartDate = (startdate) => {
         setStartDate(startdate)
     }
 
+    /**
+     * event handler to set the finishdate state on input change
+     * @param {string} finishdate 
+     */
     const updateFinishDate = (finishdate) => {
         setFinishDate(finishdate)
     }
 
+    /**
+     * event handler to set the comments state on input change (onChange)
+     * @param {string} comments 
+     */
     const updateComments = (comments) => {
         setComments(comments)
     }
 
+    /**
+     * event handler to set input error when exting the input (onBlur)
+     * @param {event} e 
+     */
     const validateInput = (e) => {
         if (!type) {
             setTypeError(true)
@@ -69,6 +95,10 @@ function PtoRequest(props) {
         }
     }
 
+    /**
+     * validator the returns if there's any error for any field in the form
+     * called from form submit handler
+     */
     const isValid = ()  => {
         if(typeError || StartDateError || FinishDateError || CommentsError) {
             return false
@@ -77,6 +107,9 @@ function PtoRequest(props) {
         return true
     }
 
+    /**
+     * function to clear all errors before redirecting in form submmit
+     */
     const clearErrors = () => {
         setTypeError(false)
         setStartDateError(false)
@@ -84,6 +117,12 @@ function PtoRequest(props) {
         setCommentsError(false)
     }
 
+    /**
+     * event handler to manage the form submit: 
+     * 1. posts pto to API
+     * 2. sets render prop handleRequestPto(data) to update pto state in App.js
+     * @param {event} e 
+     */
     const handleSubmit = (e) => {
         e.preventDefault()
         if(isValid()) {
