@@ -30,7 +30,7 @@ function PtoRequest(props) {
     const history = useHistory()
     
     /**
-     * event handler to set the type state on input change
+     * event handler to set the type state on input change (onChange)
      * @param {string} type 
      */
     const updateType = (type) => {
@@ -38,7 +38,7 @@ function PtoRequest(props) {
     }
 
     /**
-     * event handler to set the startdate state on input change
+     * event handler to set the startdate state on input change (onChange)
      * @param {string} startdate 
      */
     const updateStartDate = (startdate) => {
@@ -46,7 +46,7 @@ function PtoRequest(props) {
     }
 
     /**
-     * event handler to set the finishdate state on input change
+     * event handler to set the finishdate state on input change (onChange)
      * @param {string} finishdate 
      */
     const updateFinishDate = (finishdate) => {

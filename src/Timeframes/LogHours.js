@@ -6,36 +6,64 @@ import FormErrorMessage from './../ErrorManagement/FormErrorMessage'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
 import config from './../config'
 
+/**
+ * LogHours component
+ * @param {object} props 
+ */
 function LogHours(props) {
+
+    //variable declaration
     const [date, setDate] = useState('')
     const [startTime, setStartTime] = useState('')
     const [finishTime, setFinishTime] = useState('')
     const [comments, setComments] = useState('')
+
     const [DateError, setDateError] = useState(false)
     const [StartTimeError, setStartTimeError] = useState(false)
     const [FinishTimeError, setFinishTimeError] = useState(false)
     const [CommentsError, setCommentsError] = useState(false)
+    
     const [error, setError] = useState(null)
     const [showError, setShowError] = useState(false)
 
     const history = useHistory()
 
+    /**
+     * event handler to set the date state on input change (onChange)
+     * @param {string} date 
+     */
     const updateDate = (date) => {
         setDate(date)
     }
 
-    const updateStartTime = (time) => {
-        setStartTime(formatTime(time))
+    /**
+     * event handler to set the starttime state on input change (onChange)
+     * @param {string} time 
+     */
+    const updateStartTime = (starttime) => {
+        setStartTime(formatTime(starttime))
     }
 
-    const updateFinishTime = (time) => {
-        setFinishTime(formatTime(time))
+    /**
+     * event handler to set the finishtime state on input change (onChange)
+     * @param {string} finishtime 
+     */
+    const updateFinishTime = (finishtime) => {
+        setFinishTime(formatTime(finishtime))
     }
 
+    /**
+     * event handler to set the comments state on input change (onChange)
+     * @param {string} comments 
+     */
     const updateComments = (comments) => {
         setComments(comments)
     }
 
+    /**
+     * event handler to set input error when exiting the input (onBlur)
+     * @param {event} e 
+     */
     const validateInput = (e) => {
         if(!date) {
             setDateError(true)
@@ -66,6 +94,10 @@ function LogHours(props) {
         }
     }
 
+    /**
+     * validator the returns if there's any error for any field in the form
+     * called from form submit handler
+     */
     const isValid = () => {
         if(DateError || StartTimeError || FinishTimeError || CommentsError) {
             return false
@@ -74,6 +106,9 @@ function LogHours(props) {
         return true
     }
 
+    /**
+     * function to clear all errors before redirecting in form submmit
+     */
     const clearErrors = () => {
         setDateError(false)
         setStartTimeError(false)
@@ -81,6 +116,12 @@ function LogHours(props) {
         setCommentsError(false)
     }
 
+    /**
+     * event handler to manage the form submit: 
+     * 1. posts timeframe to API
+     * 2. sets render prop handleLogHours(data) to update timeframe state in App.js
+     * @param {event} e 
+     */
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -123,8 +164,11 @@ function LogHours(props) {
         }
     }
 
+    /**
+     * event handler to set focus to input on load
+     * @param {event} e 
+     */
     const setFocus = (e) => {
-        console.log('E: ', e.target)
         e.target.focus()
     }
     
