@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import './style/landing.css'
 import logHoursImg from './img/log-hours-page-md.png'
 import requestPtoImg from './img/request-pto-page-md.png'
@@ -10,12 +11,15 @@ import signinImg from './img/signin-page-md.png'
  * @param {object} props 
  */
 function Landing(props) {
+
+    const history = useHistory();
     
     return (
         <div className="landing">
             <header className="landing-header">
                 <h1>Manage your employees time and attendance</h1>
                 <h2>Time Track helps you to easily manage your team's working time and PTO</h2>
+                <input type="button" className="call-to-action-button" onClick={() => history.push('/signup')} value="Sign Up!" />
             </header>
             
             <section className="section landing-how-it-works">
