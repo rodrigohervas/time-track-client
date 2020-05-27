@@ -83,8 +83,10 @@ input[type=button] {
   transition: all 0.3s ease 0s;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   width: 90px;
+  font-weight: 600;
+  padding: 12px 0px !important;
 }
 
 input[type=button]:hover {
@@ -101,6 +103,8 @@ input[type=submit] {
   background-color: var(--button-bgcolor-normal);
   transition: all 0.3s ease 0s;
   width: 90px;
+  font-weight: 600;  
+  padding: 12px 0px !important;
 }
 
 input[type=submit]:hover {
