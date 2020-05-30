@@ -26,10 +26,10 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    border-top: 5px dotted var(--button-add-color-hover);
-    border-right: 5px dotted var(--button-add-color-hover);
-    border-bottom: 5px dotted var(--button-add-color-hover);
-    border-left: 5px dotted var(--button-add-color-hover);
+    border-top: 5px dotted var(--button-bgcolor-normal);
+    border-right: 5px dotted var(--button-bgcolor-normal);
+    border-bottom: 5px dotted var(--button-bgcolor-normal);
+    border-left: 5px dotted var(--button-bgcolor-normal);
     animation: spin 2s linear infinite;
 }
 
