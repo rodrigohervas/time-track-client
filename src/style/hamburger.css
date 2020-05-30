@@ -74,8 +74,8 @@
     }
 }
 
-/* over 1060px show full menu and hide hamburger */
-@media screen and (min-width: 1060px) {
+/* over 1100px show full menu and hide hamburger */
+@media screen and (min-width: 1100px) {
     
     /* Menu bar */
     .menu {
