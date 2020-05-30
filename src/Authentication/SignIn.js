@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './../style/signin.css'
 import { NavLink, useHistory } from 'react-router-dom'
+import { showHide } from './../helpers/helper'
 import FormErrorMessage from './../ErrorManagement/FormErrorMessage'
 import ErrorMessage from './../ErrorManagement/ErrorMessage'
 import config from './../config'
@@ -103,6 +104,9 @@ function SignIn(props) {
             body: JSON.stringify(user)
         };
 
+        //add loader
+        showHide('loader');
+
         fetch(url, options)
             .then(res => {
                 if (!res.ok) {
@@ -123,6 +127,9 @@ function SignIn(props) {
                     isLogged(true)
 
                     clearErrors()
+
+                    //hide loader
+                    showHide('loader');
                     
                     history.push('/dashboard')
                 }
@@ -130,6 +137,9 @@ function SignIn(props) {
             .catch(error => {
                 setError(error)
                 setShowError(true)
+
+                //hide loader
+                showHide('loader');
             })
     }
 
@@ -189,13 +199,15 @@ function SignIn(props) {
                     <NavLink to="/signup" >Sign Up</NavLink>
                 </div>
 
-                { showError && <ErrorMessage message={error}/> }
-                
+                <div id="loader" className="loader"></div>
+
                 <div>
                     <br /><br />
                     <p><b>Test user:</b> michael@jones.com</p>
                     <p><b>Test password:</b> michael</p>
                 </div>
+                
+                { showError && <ErrorMessage message={error}/> }
 
             </form>
             

@@ -1,5 +1,15 @@
 
 /**
+ * Function to toggle div display property
+ * 
+ * @param {String} id 
+ */
+export const showHide = (id) => {
+    const div = document.getElementById(id);
+    div.style.display = (div.style.display === 'flex') ? 'none' : 'flex';
+}
+
+/**
  * function that returns the number of days that exist from one date to another date
  * @param {string} startDate 
  * @param {string} finishDate 
