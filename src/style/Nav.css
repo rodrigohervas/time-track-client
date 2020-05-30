@@ -1,19 +1,31 @@
+@import './hamburger.css';
 
-.nav {
+header {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+}
+
+.nav {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: var(--nav-height-sm);
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.4s ease 0s;
+    
+    transition: all 0.5s ease 0s;
 }
 
 .logo {
-    /* border: 1px solid blue; */
     margin: 10px;
 }
 
 .menu {
-    /* border: 1px solid black; */
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
@@ -21,6 +33,19 @@
 
 .navlink {
     margin: 5px 25px;
+}
+
+@media screen and (max-width: 460px) {
+    .nav, .logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        height: var(--nav-height-md);
+
+        transition: all 0.4s ease 0s;
+    }
 }
 
 /* Non-mobile */
@@ -32,9 +57,9 @@
         transition: all 0.4s ease 0s;
     }
 
-    .nav {
+    /* .nav {
         height: 100px;
-    }
+    } */
 
     .menu {
         margin-bottom: 0px;

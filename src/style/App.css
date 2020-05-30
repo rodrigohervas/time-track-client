@@ -21,13 +21,17 @@
 
   --headers-font: 'Open Sans', sans-serif;
   --text-font: 'Montserrat', sans-serif;
+  --nav-height-sm: 100px;
+  --nav-height-lg: 125px;
+  --nav-bg-color: #00AA25;
   --nav-font: 'Cairo', sans-serif;
   --nav-font-color: #011E08;
   --nav-font-color-hover: #525275;
 }
 
 body {
-  padding: 0px;
+  /* padding: 0px; */
+  padding-top: var(--nav-height-sm);
   margin: 0px;
 }
 
